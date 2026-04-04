@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLUVENCON - Domicilios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo"><i class="fas fa-utensils"></i> SOLU<span>VENCON</span></a>
+                <div class="mobile-menu" id="mobile-menu"><i class="fas fa-bars"></i></div>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="login.html">🔐 Iniciar sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>🍔 Comida Rápida <br> al mejor precio</h1>
+                <p>Los mejores locales de domicilios en un solo lugar</p>
+                <div class="zone-selector">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <select id="zone-select"></select>
+                </div>
+            </div>
+        </section>
+        
+        <div class="container">
+            <div id="stores-grid" class="stores-grid"></div>
+        </div>
+    </main>
+
+    <!-- Carrito -->
+    <div class="cart-float" id="cart-float">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cart-counter">0</span>
+    </div>
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-panel" id="cart-panel">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-cart"></i> Mi Pedido</h3>
+            <button class="cart-close" id="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div class="cart-empty">🛒 Tu carrito está vacío</div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">$0</span>
+            </div>
+            <button class="btn-whatsapp-cart" id="checkout-whatsapp">
+                <i class="fab fa-whatsapp"></i> Enviar pedido
+            </button>
+        </div>
+    </div>
+
+    <a href="https://wa.me/573001234567" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>SOLUVENCON</h3>
+                    <p>Tu app de domicilios favorita.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Enlaces</h3>
+                    <p><a href="index.html">Inicio</a></p>
+                    <p><a href="login.html">Iniciar sesión</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Síguenos</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 SOLUVENCON</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/client.js"></script>
+    <script>
+        // Inicializar selector de zonas
+        if (document.getElementById("zone-select")) {
+            const zonas = APP_CONFIG.zonas;
+            const select = document.getElementById("zone-select");
+            select.innerHTML = Object.entries(zonas).map(([key, z]) => 
+                `<option value="${key}">📍 ${z.nombre} - Envío $${z.envio}</option>`
+            ).join('');
+            select.value = APP_CONFIG.zonaActual;
+            select.addEventListener("change", (e) => {
+                APP_CONFIG.zonaActual = e.target.value;
+                actualizarCarritoUI();
+            });
+        }
+        
+        // Cargar tiendas al iniciar
+        if (typeof cargarTiendas === "function") cargarTiendas();
+    </script>
+</body>
+</html>

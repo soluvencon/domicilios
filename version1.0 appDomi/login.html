@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SOLUVENCON</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #E63946;
+            --secondary: #F4A261;
+            --dark: #5D4037;
+            --white: #FFFFFF;
+            --gray: #6c757d;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--secondary) 100%);
+            padding: 20px;
+        }
+
+        .login-box {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .logo span { color: var(--primary); }
+        .subtitle { color: var(--gray); margin-bottom: 30px; }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover:not(:disabled) { background: #d32f3f; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .debug-box {
+            background: #fff3e0;
+            color: #e65100;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.75rem;
+            font-family: monospace;
+            text-align: left;
+            display: none;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <div class="logo"><i class="fas fa-utensils"></i> SOLU<span>VENCON</span></div>
+        <p class="subtitle">Ingresa tus credenciales</p>
+        
+        <div class="error" id="error"></div>
+        
+        <form id="formLogin">
+            <div class="form-group">
+                <label>Usuario</label>
+                <input type="text" id="usuario" placeholder="Ej: Juan Pérez" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" id="password" placeholder="Tu contraseña" required>
+            </div>
+            
+            <button type="submit" id="btnLogin">Ingresar</button>
+        </form>
+        
+        <div class="debug-box" id="debug"></div>
+    </div>
+
+    <script>
+        // ⚠️ REEMPLAZA CON TU URL (SIN ESPACIOS AL FINAL)
+        const API_URL = "https://script.google.com/macros/s/AKfycbyH1qhqdzhaTEmOEk2HsjyCTV3x19P0bmE63tDiC2bGNfcQB4fj5V_tRu4TLbVKja3Q/exec";
+
+        function guardarSesion(rol, usuario, id) {
+            sessionStorage.setItem("rol", rol);
+            sessionStorage.setItem("usuario", usuario);
+            sessionStorage.setItem("id", id);
+        }
+
+        document.getElementById("formLogin").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            
+            const usuario = document.getElementById("usuario").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const errorDiv = document.getElementById("error");
+            const debugDiv = document.getElementById("debug");
+            const btn = document.getElementById("btnLogin");
+            
+            errorDiv.style.display = "none";
+            debugDiv.style.display = "none";
+            btn.disabled = true;
+            btn.textContent = "Verificando...";
+            
+            try {
+                const url = `${API_URL}?action=login&nombre=${encodeURIComponent(usuario)}&password=${encodeURIComponent(password)}`;
+                
+                // Mostrar URL en debug
+                debugDiv.innerHTML = "<strong>Enviando:</strong><br>" + url;
+                debugDiv.style.display = "block";
+                
+                const response = await fetch(url);
+                const text = await response.text();
+                
+                debugDiv.innerHTML += "<br><br><strong>Respuesta:</strong><br>" + text;
+                
+                const data = JSON.parse(text);
+                
+                if (data.success) {
+                    guardarSesion(data.rol, data.nombre, data.id);
+                    
+                    if (data.rol === "admin") {
+                        window.location.href = "admin.html";
+                    } else if (data.rol === "domiciliario") {
+                        window.location.href = "domiciliario.html";
+                    }
+                } else {
+                    errorDiv.textContent = data.error || "Credenciales incorrectas";
+                    errorDiv.style.display = "block";
+                    btn.disabled = false;
+                    btn.textContent = "Ingresar";
+                }
+            } catch (err) {
+                errorDiv.textContent = "Error de conexión";
+                errorDiv.style.display = "block";
+                debugDiv.innerHTML += "<br><br><strong>Error:</strong> " + err.message;
+                btn.disabled = false;
+                btn.textContent = "Ingresar";
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Domiciliario - SOLUVENCON</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo"><i class="fas fa-utensils"></i> SOLU<span>VENCON</span></a>
+                <ul class="nav-links">
+                    <li><span id="user-display" style="color: var(--secondary); font-weight: 500;"></span></li>
+                    <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main style="margin-top: 100px; padding-bottom: 3rem;">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-motorcycle"></i> Mis Pedidos Asignados</h2>
+            <div id="pedidos-domiciliario" class="pedidos-grid"></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 SOLUVENCON - Panel Domiciliario</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/auth-guard.js"></script>
+    <script src="assets/js/domiciliario.js"></script>
+    <script>
+        // Proteger esta página solo para domiciliarios
+        if (protegerRuta("domiciliario")) {
+            cargarDomiciliarioData();
+        }
+    </script>
+</body>
+</html>
