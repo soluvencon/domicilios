@@ -1,8 +1,9 @@
 // ============================================
-// config.js - Configuración global
+// config.js - Configuración global de SOLUVENCON
 // ============================================
 
-const API_URL = "https://script.google.com/macros/s/AKfycbyH1qhqdzhaTEmOEk2HsjyCTV3x19P0bmE63tDiC2bGNfcQB4fj5V_tRu4TLbVKja3Q/exec";
+// ⚠️ REEMPLAZA ESTA URL CON LA URL DE TU GOOGLE APPS SCRIPT
+const API_URL = "https://script.google.com/macros/s/AKfycbxktEAR00Ubq0LwST0UzLNUdU3PAatFb7ourNEYKJz-qnlNM2kOsg6C0Ct5gQBhT_jNSA/exec";
 
 const APP_CONFIG = {
     nombre: "SOLUVENCON",
@@ -13,7 +14,8 @@ const APP_CONFIG = {
         centro: { nombre: "Centro", envio: 2000 },
         norte: { nombre: "Norte", envio: 3000 },
         sur: { nombre: "Sur", envio: 3500 },
-        oriente: { nombre: "Oriente", envio: 2500 }
+        oriente: { nombre: "Oriente", envio: 2500 },
+        occidente: { nombre: "Occidente", envio: 2800 }
     }
 };
 
@@ -39,4 +41,47 @@ function cerrarSesion() {
 
 function logout() {
     cerrarSesion();
+}
+
+// Funciones de carrito
+function obtenerCarrito() {
+    const carrito = localStorage.getItem("carrito");
+    return carrito ? JSON.parse(carrito) : [];
+}
+
+function guardarCarrito(carrito) {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+function limpiarCarrito() {
+    localStorage.removeItem("carrito");
+}
+
+// Funciones de utilidad
+function formatearPrecio(precio) {
+    return "$" + parseInt(precio).toLocaleString("es-CO");
+}
+
+function generarEstrellas(rating) {
+    let estrellas = "";
+    for (let i = 1; i <= 5; i++) {
+        if (i <= Math.floor(rating)) estrellas += '<i class="fas fa-star"></i>';
+        else if (i - 0.5 <= rating) estrellas += '<i class="fas fa-star-half-alt"></i>';
+        else estrellas += '<i class="far fa-star"></i>';
+    }
+    return estrellas;
+}
+
+// Mostrar notificación
+function mostrarNotificacion(mensaje, tipo = "success") {
+    const notif = document.createElement("div");
+    notif.className = `notificacion notificacion-${tipo}`;
+    notif.innerHTML = `<i class="fas ${tipo === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${mensaje}`;
+    document.body.appendChild(notif);
+    
+    setTimeout(() => notif.classList.add("mostrar"), 100);
+    setTimeout(() => {
+        notif.classList.remove("mostrar");
+        setTimeout(() => notif.remove(), 300);
+    }, 3000);
 }

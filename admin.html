@@ -7,146 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
-    <style>
-        .admin-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .admin-card {
-            background: var(--white);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow);
-        }
-        
-        .admin-card h3 {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
-        }
-        
-        .btn-success { background: #28a745; color: white; }
-        .btn-success:hover { background: #218838; }
-        .btn-danger { background: #dc3545; color: white; }
-        .btn-danger:hover { background: #c82333; }
-        .btn-info { background: #17a2b8; color: white; }
-        .btn-info:hover { background: #138496; }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-        
-        .modal.active { display: flex; }
-        
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--gray);
-            width: auto;
-            padding: 0;
-        }
-        
-        .form-group {
-            margin-bottom: 1rem;
-            text-align: left;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--dark);
-        }
-        
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 1rem;
-        }
-        
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        
-        .form-actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        .form-actions button { flex: 1; margin: 0; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #eee; }
-        th { background: var(--light); font-weight: 600; color: var(--dark); }
-        tr:hover { background: #f9f9f9; }
-        
-        .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.85rem; margin-right: 0.3rem; }
-        
-        .store-img-thumb {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        
-        .productos-tienda {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 1rem;
-            margin-top: 1rem;
-            display: none;
-        }
-        
-        .productos-tienda.active { display: block; }
-        
-        .badge { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-        .badge-pendiente { background: #ffc107; color: #000; }
-        .badge-en-camino { background: #17a2b8; color: #fff; }
-        .badge-entregado { background: #28a745; color: #fff; }
-    </style>
 </head>
 <body>
     <header>
@@ -161,13 +21,13 @@
         </div>
     </header>
 
-    <main style="margin-top: 100px; padding-bottom: 3rem;">
+    <main>
         <div class="container">
             <h2 class="section-title"><i class="fas fa-cog"></i> Panel de Administración</h2>
             
             <!-- TIENDAS -->
             <div class="admin-card" style="margin-bottom: 2rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
                     <h3><i class="fas fa-store"></i> Tiendas</h3>
                     <button class="btn btn-success btn-sm" onclick="mostrarModalTienda()">
                         <i class="fas fa-plus"></i> Nueva Tienda
@@ -184,23 +44,24 @@
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            <tr><td colspan="5" class="text-center">Cargando tiendas...</td></tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
             
             <!-- PRODUCTOS POR TIENDA -->
             <div class="admin-card" style="margin-bottom: 2rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
                     <h3><i class="fas fa-box"></i> Productos por Tienda</h3>
                     <button class="btn btn-primary btn-sm" onclick="mostrarModalProducto()">
                         <i class="fas fa-plus"></i> Agregar Producto
                     </button>
                 </div>
                 
-                <!-- Selector de tienda para ver productos -->
                 <div class="form-group" style="margin-bottom: 1.5rem;">
-                    <label>Seleccionar tienda para ver sus productos:</label>
+                    <label><i class="fas fa-store"></i> Seleccionar tienda para ver sus productos:</label>
                     <select id="selectTiendaProductos" onchange="cargarProductosPorTienda(this.value)">
                         <option value="">-- Selecciona una tienda --</option>
                     </select>
@@ -208,7 +69,7 @@
                 
                 <div id="listaProductosTienda" style="display: none;">
                     <h4 style="margin-bottom: 1rem; color: var(--dark);">
-                        Productos de: <span id="nombreTiendaSeleccionada"></span>
+                        <i class="fas fa-utensils"></i> Productos de: <span id="nombreTiendaSeleccionada"></span>
                     </h4>
                     <div style="overflow-x: auto;">
                         <table id="tablaProductosTienda">
@@ -239,98 +100,118 @@
                                 <th>Total</th>
                                 <th>Estado</th>
                                 <th>Domiciliario</th>
+                                <th>Fecha</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            <tr><td colspan="7" class="text-center">Cargando pedidos...</td></tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Modal Nueva Tienda -->
+    <!-- Modal Nueva/Editar Tienda -->
     <div id="modalTienda" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-store"></i> Nueva Tienda</h3>
-                <button class="close-modal" onclick="cerrarModalTienda()">&times;</button>
+                <h3 id="modalTiendaTitulo"><i class="fas fa-store"></i> Nueva Tienda</h3>
+                <button class="close-modal" onclick="cerrarModalTienda()"><i class="fas fa-times"></i></button>
             </div>
             <form id="formTienda" onsubmit="event.preventDefault(); guardarTienda();">
                 <div class="form-group">
-                    <label>Nombre *</label>
+                    <label><i class="fas fa-tag"></i> Nombre *</label>
                     <input type="text" id="tiendaNombre" required placeholder="Ej: Hamburguesas El Corral">
                 </div>
                 <div class="form-group">
-                    <label>Descripción</label>
-                    <textarea id="tiendaDescripcion" rows="2" placeholder="Breve descripción"></textarea>
+                    <label><i class="fas fa-align-left"></i> Descripción</label>
+                    <textarea id="tiendaDescripcion" rows="2" placeholder="Breve descripción de la tienda"></textarea>
                 </div>
                 <div class="form-group">
-                    <label>Dirección *</label>
+                    <label><i class="fas fa-map-marker-alt"></i> Dirección *</label>
                     <input type="text" id="tiendaDireccion" required placeholder="Ej: Calle 123 #45-67">
                 </div>
                 <div class="form-group">
-                    <label>Horario</label>
+                    <label><i class="fas fa-clock"></i> Horario</label>
                     <input type="text" id="tiendaHorario" value="11am - 10pm">
                 </div>
                 <div class="form-group">
-                    <label>URL Imagen</label>
-                    <input type="url" id="tiendaImagen" placeholder="https://...">
+                    <label><i class="fas fa-star"></i> Rating (1-5)</label>
+                    <input type="number" id="tiendaRating" min="1" max="5" value="5" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-image"></i> URL Imagen</label>
+                    <input type="url" id="tiendaImagen" placeholder="https://ejemplo.com/imagen.jpg">
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" onclick="cerrarModalTienda()">Cancelar</button>
-                    <button type="submit" class="btn btn-success">Guardar</button>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Modal Nuevo Producto -->
+    <!-- Modal Nuevo/Editar Producto -->
     <div id="modalProducto" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-box"></i> Nuevo Producto</h3>
-                <button class="close-modal" onclick="cerrarModalProducto()">&times;</button>
+                <h3 id="modalProductoTitulo"><i class="fas fa-box"></i> Nuevo Producto</h3>
+                <button class="close-modal" onclick="cerrarModalProducto()"><i class="fas fa-times"></i></button>
             </div>
             <form id="formProducto" onsubmit="event.preventDefault(); guardarProducto();">
                 <div class="form-group">
-                    <label>Tienda *</label>
+                    <label><i class="fas fa-store"></i> Tienda *</label>
                     <select id="productoTiendaId" required>
                         <option value="">-- Selecciona una tienda --</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Nombre del producto *</label>
+                    <label><i class="fas fa-tag"></i> Nombre del producto *</label>
                     <input type="text" id="productoNombre" required placeholder="Ej: Hamburguesa Sencilla">
                 </div>
                 <div class="form-group">
-                    <label>Descripción</label>
+                    <label><i class="fas fa-align-left"></i> Descripción</label>
                     <textarea id="productoDescripcion" rows="2" placeholder="Ingredientes, detalles..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label>Precio *</label>
+                    <label><i class="fas fa-dollar-sign"></i> Precio *</label>
                     <input type="number" id="productoPrecio" required min="0" placeholder="10000">
                 </div>
                 <div class="form-group">
-                    <label>Icono (clase FontAwesome)</label>
+                    <label><i class="fas fa-icons"></i> Icono (clase FontAwesome)</label>
                     <input type="text" id="productoIcono" value="fa-utensils" placeholder="fa-hamburger">
                 </div>
                 <div class="form-group">
-                    <label>Badge (etiqueta especial)</label>
+                    <label><i class="fas fa-award"></i> Badge (etiqueta especial)</label>
                     <input type="text" id="productoBadge" placeholder="Ej: Más pedida, Oferta, etc.">
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" onclick="cerrarModalProducto()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar Producto</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar Producto</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal Detalle Pedido -->
+    <div id="modalPedido" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-clipboard-list"></i> Detalle del Pedido</h3>
+                <button class="close-modal" onclick="cerrarModalPedido()"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="detallePedidoContenido">
+                <!-- Contenido dinámico -->
+            </div>
         </div>
     </div>
 
     <footer>
         <div class="container">
             <div class="footer-bottom">
-                <p>&copy; 2025 SOLUVENCON - Panel Admin</p>
+                <p>&copy; 2025 SOLUVENCON - Panel de Administración</p>
             </div>
         </div>
     </footer>

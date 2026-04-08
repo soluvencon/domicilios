@@ -32,3 +32,17 @@ function protegerRuta(rolRequerido) {
     
     return true;
 }
+
+function verificarSesion() {
+    const sesion = obtenerSesion();
+    return sesion.rol !== null;
+}
+
+function redirigirSegunRol() {
+    const sesion = obtenerSesion();
+    if (sesion.rol === "admin") {
+        window.location.href = "admin.html";
+    } else if (sesion.rol === "domiciliario") {
+        window.location.href = "domiciliario.html";
+    }
+}

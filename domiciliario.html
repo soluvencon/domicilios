@@ -21,10 +21,15 @@
         </div>
     </header>
 
-    <main style="margin-top: 100px; padding-bottom: 3rem;">
+    <main>
         <div class="container">
             <h2 class="section-title"><i class="fas fa-motorcycle"></i> Mis Pedidos Asignados</h2>
-            <div id="pedidos-domiciliario" class="pedidos-grid"></div>
+            <div id="pedidos-domiciliario" class="pedidos-grid">
+                <div class="panel-card empty-state" style="text-align: center; padding: 3rem;">
+                    <div class="spinner" style="margin: 0 auto 1rem;"></div>
+                    <p>Cargando pedidos...</p>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -40,7 +45,6 @@
     <script src="assets/js/auth-guard.js"></script>
     <script src="assets/js/domiciliario.js"></script>
     <script>
-        // Proteger esta página solo para domiciliarios
         if (protegerRuta("domiciliario")) {
             cargarDomiciliarioData();
         }

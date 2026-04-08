@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Pedido - SOLUVENCON</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo"><i class="fas fa-utensils"></i> SOLU<span>VENCON</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html"><i class="fas fa-arrow-left"></i> Seguir comprando</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main style="margin-top: 100px; padding-bottom: 3rem;">
+        <div class="checkout-container">
+            <a href="index.html" class="btn-volver"><i class="fas fa-arrow-left"></i> Volver a tiendas</a>
+            
+            <div class="checkout-header">
+                <h1><i class="fas fa-clipboard-check"></i> Finalizar Pedido</h1>
+                <p>Completa tus datos para procesar tu orden</p>
+            </div>
+            
+            <div class="checkout-grid">
+                <!-- Formulario de datos -->
+                <div class="checkout-card">
+                    <h3><i class="fas fa-user"></i> Tus Datos</h3>
+                    <form id="formCheckout">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Nombre completo *</label>
+                            <input type="text" id="nombre" required placeholder="Ej: Juan Pérez García">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-phone"></i> Teléfono *</label>
+                            <input type="tel" id="telefono" required placeholder="Ej: 3001234567">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-map-marker-alt"></i> Dirección de entrega *</label>
+                            <input type="text" id="direccion" required placeholder="Ej: Calle 123 #45-67">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-home"></i> Barrio</label>
+                            <input type="text" id="barrio" placeholder="Ej: Centro, El Poblado...">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-sticky-note"></i> Referencias adicionales</label>
+                            <textarea id="referencias" rows="2" placeholder="Casa de dos pisos, portón rojo, etc."></textarea>
+                        </div>
+                        
+                        <input type="hidden" id="metodoPago" value="">
+                    </form>
+                </div>
+                
+                <!-- Resumen del pedido -->
+                <div>
+                    <div class="checkout-card" style="margin-bottom: 1.5rem;">
+                        <h3><i class="fas fa-shopping-cart"></i> Resumen del Pedido</h3>
+                        <div class="resumen-pedido" id="resumenItems">
+                            <!-- Items del carrito -->
+                        </div>
+                        <div class="resumen-item">
+                            <span>Subtotal:</span>
+                            <span id="resumenSubtotal">$0</span>
+                        </div>
+                        <div class="resumen-item">
+                            <span>Envío:</span>
+                            <span id="resumenEnvio">$0</span>
+                        </div>
+                        <div class="resumen-total">
+                            <span>TOTAL:</span>
+                            <span id="resumenTotal">$0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="checkout-card">
+                        <h3><i class="fas fa-credit-card"></i> Método de Pago</h3>
+                        <div class="metodo-pago">
+                            <div class="opcion-pago" data-metodo="Efectivo">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span>Efectivo</span>
+                            </div>
+                            <div class="opcion-pago" data-metodo="Nequi">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>Nequi</span>
+                            </div>
+                            <div class="opcion-pago" data-metodo="Daviplata">
+                                <i class="fas fa-wallet"></i>
+                                <span>Daviplata</span>
+                            </div>
+                            <div class="opcion-pago" data-metodo="Transferencia">
+                                <i class="fas fa-university"></i>
+                                <span>Transferencia</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-confirmar" id="btnConfirmar" onclick="document.getElementById('formCheckout').dispatchEvent(new Event('submit'))">
+                        <i class="fab fa-whatsapp"></i> Confirmar y enviar por WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 SOLUVENCON - Todos los derechos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/checkout.js"></script>
+</body>
+</html>
