@@ -2449,3 +2449,42 @@ tr:hover {
         padding: 0.2rem 0.5rem;
     }
 }
+header {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.hero {
+    margin-top: 0;
+    padding-top: 0;
+}
+/* Responsive para el selector de zona */
+@media (max-width: 768px) {
+    .zone-selector {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1rem;
+        gap: 0.8rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .zone-selector select {
+        width: 100%;
+        font-size: 0.9rem;
+        padding: 0.6rem;
+    }
+    
+    .zone-selector i {
+        display: none; /* Opcional: oculta el icono en móvil para ahorrar espacio */
+    }
+}
+.zone-selector {
+    position: relative;
+    z-index: 1000; /* Asegura que esté por encima */
+}
+
+.zone-selector select {
+    display: block;
+    width: 100%;
+    pointer-events: auto; /* Asegura que sea cliqueable */
+}

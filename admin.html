@@ -123,59 +123,45 @@
             </div>
         </div>
     </main>
-     <!-- Sección Historial de Pedidos -->
+     <!-- ========== SECCIÓN HISTORIAL DE PEDIDOS ENTREGADOS ========== -->
 <section class="admin-card" id="seccionHistorial">
     <div class="historial-header">
         <h3 class="historial-titulo">
             <i class="fas fa-history"></i>
             Historial de Pedidos Entregados
         </h3>
-        
         <div class="historial-controles">
             <div class="filtro-grupo">
-                <label for="filtroDomiciliarioHistorial">
-                    <i class="fas fa-filter"></i>
-                </label>
+                <label><i class="fas fa-filter"></i></label>
                 <select id="filtroDomiciliarioHistorial" onchange="filtrarHistorialPorDomiciliario()">
                     <option value="">Todos los domiciliarios</option>
-                    <!-- Se llena dinámicamente -->
+                    <option value="sin-asignar">Sin asignar</option>
                 </select>
             </div>
-            
             <div class="filtro-grupo">
-                <label for="buscarHistorial">
-                    <i class="fas fa-search"></i>
-                </label>
-                <input type="text" id="buscarHistorial" placeholder="Buscar cliente, teléfono..." 
-                       onkeyup="buscarEnHistorial()">
+                <label><i class="fas fa-search"></i></label>
+                <input type="text" id="buscarHistorial" placeholder="Buscar cliente, teléfono..." onkeyup="buscarEnHistorial()">
             </div>
         </div>
     </div>
-    
+
     <!-- Acciones masivas -->
     <div class="acciones-masivas" id="accionesMasivas" style="display: none;">
-        <button class="btn-accion-masiva btn-eliminar-masivo" id="btnEliminarSeleccionados" 
-                onclick="eliminarPedidosSeleccionados()">
-            <i class="fas fa-trash"></i>
-            Eliminar seleccionados
+        <button class="btn-accion-masiva btn-eliminar-masivo" id="btnEliminarSeleccionados" onclick="eliminarPedidosSeleccionados()">
+            <i class="fas fa-trash"></i> Eliminar seleccionados
         </button>
-        
         <button class="btn-accion-masiva btn-exportar" onclick="exportarHistorialCSV()">
-            <i class="fas fa-file-csv"></i>
-            Exportar CSV
+            <i class="fas fa-file-csv"></i> Exportar CSV
         </button>
-        
         <span class="contador-seleccionados" id="contadorSeleccionados"></span>
     </div>
-    
+
     <!-- Tabla de historial -->
     <div class="tabla-historial-container">
         <table id="tablaHistorialPedidos">
             <thead>
                 <tr>
-                    <th>
-                        <input type="checkbox" id="checkboxTodos" onchange="toggleSeleccionarTodos(this)">
-                    </th>
+                    <th><input type="checkbox" id="checkboxTodos" onchange="toggleSeleccionarTodos(this)"></th>
                     <th>ID</th>
                     <th>Cliente</th>
                     <th>Total</th>
@@ -186,13 +172,10 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Se llena dinámicamente -->
+                <tr><td colspan="8" class="text-center">Cargando historial...</td</tr>
             </tbody>
         </table>
-        
-        <div class="contador-resultados" id="contadorHistorial">
-            0 pedidos
-        </div>
+        <div class="contador-resultados" id="contadorHistorial">0 pedidos</div>
     </div>
 </section>
     <!-- Modal Nueva/Editar Tienda -->
@@ -333,7 +316,10 @@
             </div>
         </div>
     </footer>
+ <!-- Antes de tus scripts -->
+<script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
 
+<!-- resto de scripts -->
     <script src="assets/js/config.js"></script>
     <script src="assets/js/auth-guard.js"></script>
     <script src="assets/js/admin.js"></script>

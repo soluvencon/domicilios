@@ -1,13 +1,13 @@
 // ============================================
-// config.js - Configuración global de SOLUVENCON
+// config.js - Configuración global con Socket.IO
 // ============================================
 
-// ⚠️ REEMPLAZA ESTA URL CON LA URL DE TU GOOGLE APPS SCRIPT
-const API_URL = "https://script.google.com/macros/s/AKfycbwCwYXE9bAxvxp6m8FuXOwi-c5_DLVCc5vnKQqJVGn0aDdRcogkcwmGGQ-e99n4vsX4KA/exec";
+// URL del backend Node.js (cambia si el servidor está en otra IP/puerto)
+const API_URL = "http://localhost:3000/api";
 
 const APP_CONFIG = {
     nombre: "SOLUVENCON",
-    telefonoWhatsApp: "573001234567",
+    telefonoWhatsApp: "573005005306",
     envioBase: 2000,
     zonaActual: "centro",
     zonas: {
@@ -84,4 +84,37 @@ function mostrarNotificacion(mensaje, tipo = "success") {
         notif.classList.remove("mostrar");
         setTimeout(() => notif.remove(), 300);
     }, 3000);
+}
+
+// ============================================
+// SOCKET.IO
+// ============================================
+let socket = null;
+
+function conectarSocket(rol, id) {
+    if (socket && socket.connected) return socket;
+    
+    socket = io("http://localhost:3000");
+    
+    socket.on('connect', () => {
+        console.log('✅ Conectado a Socket.IO');
+        socket.emit('identificar', { rol, id });
+    });
+    
+    socket.on('connect_error', (err) => {
+        console.error('❌ Error de conexión Socket.IO:', err);
+    });
+    
+    socket.on('disconnect', () => {
+        console.log('⚠️ Desconectado del servidor Socket.IO');
+    });
+    
+    return socket;
+}
+
+function desconectarSocket() {
+    if (socket) {
+        socket.disconnect();
+        socket = null;
+    }
 }
