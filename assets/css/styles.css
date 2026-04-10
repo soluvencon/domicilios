@@ -1,24 +1,45 @@
 /* ============================================
-   SOLUVENCON - ESTILOS PROFESIONALES
+   SOLUVENCON - SISTEMA DE DOMICILIOS
+   Hoja de Estilos Principal (Corregida y Optimizada)
+   ============================================ */
+
+/* ============================================
+   1. VARIABLES GLOBALES
    ============================================ */
 :root {
-    --primary: #E63946;
-    --secondary: #F4A261;
-    --accent: #2A9D8F;
-    --dark: #5D4037;
-    --light: #FFF8E7;
+    /* Colores principales */
+    --primary: #E63946;      /* Rojo principal - acciones urgentes */
+    --secondary: #F4A261;    /* Naranja - acentos cálidos */
+    --accent: #2A9D8F;      /* Verde azulado - éxito/confirmación */
+    --dark: #5D4037;        /* Marrón oscuro - texto principal */
+    --light: #FFF8E7;       /* Crema - fondo */
     --white: #FFFFFF;
-    --gray: #6c757d;
-    --success: #28a745;
-    --warning: #ffc107;
-    --danger: #dc3545;
-    --info: #17a2b8;
+    --gray: #6c757d;        /* Gris medio - texto secundario */
+    
+    /* Estados funcionales */
+    --success: #28a745;      /* Verde - entregado/completado */
+    --warning: #ffc107;     /* Amarillo - pendiente/atención */
+    --danger: #dc3545;      /* Rojo oscuro - cancelado/error */
+    --info: #17a2b8;        /* Azul - en camino/información */
+    
+    /* Sombras y efectos */
     --shadow: 0 10px 30px rgba(0,0,0,0.08);
     --shadow-hover: 0 20px 40px rgba(0,0,0,0.12);
+    --shadow-urgent: 0 10px 30px rgba(230, 57, 70, 0.3);
+    
+    /* Dimensiones */
     --border-radius: 20px;
+    --border-radius-sm: 12px;
+    --border-radius-lg: 50px;
+    
+    /* Transiciones */
     --transition: all 0.3s ease;
+    --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+/* ============================================
+   2. RESET Y BASE
+   ============================================ */
 * {
     margin: 0;
     padding: 0;
@@ -41,7 +62,9 @@ body {
     padding: 0 24px;
 }
 
-/* Header */
+/* ============================================
+   3. HEADER Y NAVEGACIÓN
+   ============================================ */
 header {
     background: linear-gradient(135deg, var(--dark) 0%, var(--secondary) 100%);
     color: var(--white);
@@ -69,8 +92,14 @@ nav {
     gap: 10px;
 }
 
-.logo i { font-size: 2rem; color: var(--primary); }
-.logo span { color: var(--primary); }
+.logo i { 
+    font-size: 2rem; 
+    color: var(--primary); 
+}
+
+.logo span { 
+    color: var(--primary); 
+}
 
 .nav-links {
     display: flex;
@@ -89,7 +118,9 @@ nav {
     gap: 0.5rem;
 }
 
-.nav-links a:hover { color: var(--primary); }
+.nav-links a:hover { 
+    color: var(--primary); 
+}
 
 .mobile-menu {
     display: none;
@@ -98,7 +129,9 @@ nav {
     color: var(--white);
 }
 
-/* Hero */
+/* ============================================
+   4. HERO SECTION
+   ============================================ */
 .hero {
     background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
     color: var(--white);
@@ -130,10 +163,12 @@ nav {
     opacity: 0.95;
 }
 
-/* Botones */
+/* ============================================
+   5. BOTONES
+   ============================================ */
 .btn {
     padding: 0.8rem 1.8rem;
-    border-radius: 50px;
+    border-radius: var(--border-radius-lg);
     text-decoration: none;
     font-weight: 600;
     transition: var(--transition);
@@ -147,6 +182,7 @@ nav {
     font-size: 0.95rem;
 }
 
+/* Variantes de color */
 .btn-primary {
     background: var(--primary);
     color: var(--white);
@@ -209,16 +245,19 @@ nav {
     transform: translateY(-2px);
 }
 
+/* Tamaños */
 .btn-sm {
     padding: 0.4rem 0.8rem;
     font-size: 0.85rem;
 }
 
-/* Selector de zona */
+/* ============================================
+   6. SELECTOR DE ZONA
+   ============================================ */
 .zone-selector {
     background: var(--white);
     padding: 0.8rem 1.5rem;
-    border-radius: 50px;
+    border-radius: var(--border-radius-lg);
     display: inline-flex;
     align-items: center;
     gap: 0.8rem;
@@ -242,7 +281,9 @@ nav {
     font-size: 0.95rem;
 }
 
-/* Grid de tiendas */
+/* ============================================
+   7. GRID DE TIENDAS
+   ============================================ */
 .stores-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -315,7 +356,9 @@ nav {
     border-radius: 8px;
 }
 
-/* Menú de productos */
+/* ============================================
+   8. MENÚ DE PRODUCTOS
+   ============================================ */
 .back-button {
     display: inline-flex;
     align-items: center;
@@ -323,7 +366,7 @@ nav {
     background: var(--dark);
     color: white;
     padding: 0.6rem 1.2rem;
-    border-radius: 50px;
+    border-radius: var(--border-radius-lg);
     border: none;
     cursor: pointer;
     margin-bottom: 2rem;
@@ -416,7 +459,7 @@ nav {
     margin-bottom: 0.8rem;
 }
 
-/* Precios por cantidad */
+/* Precios por cantidad (mayoristas) */
 .precios-mayoristas {
     display: flex;
     gap: 8px;
@@ -427,7 +470,7 @@ nav {
 .caja-precio {
     background: var(--light);
     border: 2px solid var(--accent);
-    border-radius: 12px;
+    border-radius: var(--border-radius-sm);
     padding: 8px 10px;
     text-align: center;
     flex: 1;
@@ -462,7 +505,9 @@ nav {
     font-weight: 700;
 }
 
-/* Carrito flotante */
+/* ============================================
+   9. CARRITO FLOTANTE Y PANEL
+   ============================================ */
 .cart-float {
     position: fixed;
     bottom: 30px;
@@ -510,7 +555,7 @@ nav {
     border: 2px solid white;
 }
 
-/* Panel lateral carrito */
+/* Panel lateral del carrito */
 .cart-panel {
     position: fixed;
     top: 0;
@@ -596,7 +641,7 @@ nav {
     gap: 0.8rem;
     padding: 1rem;
     background: white;
-    border-radius: 12px;
+    border-radius: var(--border-radius-sm);
     margin-bottom: 0.8rem;
     border-left: 4px solid var(--primary);
 }
@@ -701,7 +746,7 @@ nav {
     background: #25D366;
     color: white;
     border: none;
-    border-radius: 50px;
+    border-radius: var(--border-radius-lg);
     font-weight: 700;
     cursor: pointer;
     display: flex;
@@ -718,7 +763,9 @@ nav {
     transform: translateY(-2px);
 }
 
-/* WhatsApp flotante */
+/* ============================================
+   10. WHATSAPP FLOTANTE
+   ============================================ */
 .whatsapp-float {
     position: fixed;
     bottom: 30px;
@@ -742,7 +789,9 @@ nav {
     transform: scale(1.1);
 }
 
-/* Footer */
+/* ============================================
+   11. FOOTER
+   ============================================ */
 footer {
     background: var(--dark);
     color: white;
@@ -803,14 +852,48 @@ footer {
     color: #aaa;
 }
 
-/* Animaciones */
+/* ============================================
+   12. ANIMACIONES GLOBALES
+   ============================================ */
 @keyframes popIn {
     0% { transform: scale(0); opacity: 0; }
     80% { transform: scale(1.1); }
     100% { transform: scale(1); opacity: 1; }
 }
 
-/* Notificaciones */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from { transform: translate(-50%, -100px); opacity: 0; }
+    to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Spinner/Loader */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--light);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* ============================================
+   13. NOTIFICACIONES TOAST BÁSICAS
+   ============================================ */
 .notificacion {
     position: fixed;
     top: 100px;
@@ -818,7 +901,7 @@ footer {
     background: var(--success);
     color: white;
     padding: 1rem 1.5rem;
-    border-radius: 12px;
+    border-radius: var(--border-radius-sm);
     box-shadow: var(--shadow-hover);
     z-index: 2000;
     display: flex;
@@ -836,7 +919,7 @@ footer {
     background: var(--danger);
 }
 
-/* Loader */
+/* Loader de página */
 #page-loader {
     position: fixed;
     top: 0;
@@ -848,19 +931,6 @@ footer {
     align-items: center;
     justify-content: center;
     z-index: 3000;
-}
-
-.spinner {
-    width: 50px;
-    height: 50px;
-    border: 4px solid var(--light);
-    border-top-color: var(--primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
 }
 
 /* Estados vacíos */
@@ -878,9 +948,8 @@ footer {
 }
 
 /* ============================================
-   ESTILOS PARA PANELES DE ADMIN
+   14. PANELES DE ADMINISTRACIÓN
    ============================================ */
-
 main {
     margin-top: 80px;
     padding: 2rem 0;
@@ -918,7 +987,9 @@ main {
     color: var(--dark);
 }
 
-/* Tablas */
+/* ============================================
+   15. TABLAS DE ADMIN
+   ============================================ */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -949,7 +1020,7 @@ tr:hover {
     color: var(--gray);
 }
 
-/* Badges de estado */
+/* Badges de estado para pedidos */
 .badge {
     padding: 0.3rem 0.8rem;
     border-radius: 20px;
@@ -959,12 +1030,14 @@ tr:hover {
     display: inline-block;
 }
 
-.badge-pendiente { background: #ffc107; color: #000; }
-.badge-en-camino { background: #17a2b8; color: #fff; }
-.badge-entregado { background: #28a745; color: #fff; }
-.badge-cancelado { background: #dc3545; color: #fff; }
+.badge-pendiente { background: var(--warning); color: #000; }
+.badge-en-camino { background: var(--info); color: #fff; }
+.badge-entregado { background: var(--success); color: #fff; }
+.badge-cancelado { background: var(--danger); color: #fff; }
 
-/* Pedidos domiciliario */
+/* ============================================
+   16. PEDIDOS DEL DOMICILIARIO
+   ============================================ */
 .pedidos-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -987,6 +1060,14 @@ tr:hover {
     opacity: 0.8;
 }
 
+/* Estados visuales de pedidos */
+.pedido-card.pendiente { border-left-color: var(--warning); }
+.pedido-card.en-camino { border-left-color: var(--info); }
+.pedido-card.entregado { 
+    border-left-color: var(--success); 
+    background: linear-gradient(135deg, #f8fff8 0%, #ffffff 100%);
+}
+
 .pedido-header {
     display: flex;
     justify-content: space-between;
@@ -996,6 +1077,7 @@ tr:hover {
     gap: 0.5rem;
 }
 
+/* Badges de estado en cards */
 .estado-badge {
     padding: 0.3rem 0.8rem;
     border-radius: 20px;
@@ -1004,10 +1086,10 @@ tr:hover {
     text-transform: uppercase;
 }
 
-.estado-pendiente { background: #ffc107; color: #000; }
-.estado-en-camino { background: #17a2b8; color: #fff; }
-.estado-entregado { background: #28a745; color: #fff; }
-.estado-cancelado { background: #dc3545; color: #fff; }
+.estado-pendiente { background: var(--warning); color: #000; }
+.estado-en-camino { background: var(--info); color: #fff; }
+.estado-entregado { background: var(--success); color: #fff; }
+.estado-cancelado { background: var(--danger); color: #fff; }
 
 .pedido-info p {
     margin-bottom: 0.5rem;
@@ -1031,11 +1113,17 @@ tr:hover {
     color: var(--gray);
 }
 
+/* Botones de cambio de estado */
 .estado-botones {
     display: flex;
     gap: 0.5rem;
     margin-top: 1rem;
     flex-wrap: wrap;
+}
+
+.estado-botones .btn {
+    flex: 1;
+    min-width: 100px;
 }
 
 .estado-seccion {
@@ -1047,7 +1135,9 @@ tr:hover {
     gap: 0.5rem;
 }
 
-/* Modales */
+/* ============================================
+   17. MODALES
+   ============================================ */
 .modal {
     display: none;
     position: fixed;
@@ -1076,17 +1166,12 @@ tr:hover {
     max-height: 90vh;
     overflow-y: auto;
     animation: slideUp 0.3s ease;
+    position: relative;
 }
 
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Modal de asignar domiciliario - más ancho */
+#modalAsignarDomiciliario .modal-content {
+    max-width: 600px;
 }
 
 .modal-header {
@@ -1101,6 +1186,7 @@ tr:hover {
     align-items: center;
     gap: 0.5rem;
     color: var(--dark);
+    font-size: 1.3rem;
 }
 
 .close-modal {
@@ -1123,9 +1209,140 @@ tr:hover {
     color: var(--dark);
 }
 
-/* Formularios */
-.form-group {
+.modal-body {
+    padding: 0;
+}
+
+/* ============================================
+   18. MODAL ASIGNAR DOMICILIARIO (ESPECÍFICO)
+   ============================================ */
+#asignarPedidoId {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* Buscador de domiciliarios */
+#buscarDomiciliario {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: var(--border-radius-sm);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: var(--transition);
     margin-bottom: 1rem;
+}
+
+#buscarDomiciliario:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* Lista de domiciliarios */
+#listaDomiciliarios {
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+/* Scrollbar personalizada */
+#listaDomiciliarios::-webkit-scrollbar {
+    width: 6px;
+}
+
+#listaDomiciliarios::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+#listaDomiciliarios::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 3px;
+}
+
+/* Item de domiciliario */
+.domiciliario-item {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    margin-bottom: 12px;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.domiciliario-item:hover {
+    border-color: var(--primary);
+    transform: translateX(8px);
+    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.15);
+}
+
+/* Avatar del domiciliario */
+.domiciliario-item > div:first-child {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--dark), var(--accent));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+/* Información del domiciliario */
+.domiciliario-item > div:nth-child(2) {
+    flex: 1;
+}
+
+.domiciliario-item strong {
+    display: block;
+    font-weight: 600;
+    color: var(--dark);
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+}
+
+.domiciliario-item small {
+    color: var(--gray);
+    font-size: 0.85rem;
+}
+
+.domiciliario-item small i {
+    color: var(--accent);
+    margin-right: 4px;
+}
+
+/* Icono de selección */
+.domiciliario-item > div:last-child {
+    color: var(--primary);
+    font-size: 1.2rem;
+    margin-left: 12px;
+}
+
+/* Mensaje sin resultados */
+#sinResultados {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--gray);
+}
+
+#sinResultados i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #ddd;
+}
+
+/* ============================================
+   19. FORMULARIOS EN MODALES
+   ============================================ */
+.form-group {
+    margin-bottom: 1.2rem;
     text-align: left;
 }
 
@@ -1134,15 +1351,18 @@ tr:hover {
     margin-bottom: 0.5rem;
     font-weight: 500;
     color: var(--dark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .form-group input,
 .form-group textarea,
 .form-group select {
     width: 100%;
-    padding: 0.8rem 1rem;
+    padding: 0.9rem 1rem;
     border: 2px solid #e0e0e0;
-    border-radius: 10px;
+    border-radius: var(--border-radius-sm);
     font-family: inherit;
     font-size: 1rem;
     transition: var(--transition);
@@ -1153,6 +1373,11 @@ tr:hover {
 .form-group select:focus {
     outline: none;
     border-color: var(--primary);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
 }
 
 .form-actions {
@@ -1166,21 +1391,29 @@ tr:hover {
     margin: 0;
 }
 
-/* Detalle pedido en modal */
+/* ============================================
+   20. DETALLE DE PEDIDO EN MODAL
+   ============================================ */
 .detalle-pedido p {
     margin-bottom: 0.8rem;
+    color: var(--gray);
+}
+
+.detalle-pedido p strong {
+    color: var(--dark);
 }
 
 .productos-lista {
     background: var(--light);
-    border-radius: 10px;
+    border-radius: var(--border-radius-sm);
     padding: 1rem;
+    margin: 1rem 0;
 }
 
 .producto-item {
     display: flex;
     justify-content: space-between;
-    padding: 0.5rem 0;
+    padding: 0.7rem 0;
     border-bottom: 1px solid #e0e0e0;
 }
 
@@ -1189,14 +1422,17 @@ tr:hover {
 }
 
 .total-pedido {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: var(--primary);
+    font-weight: 700;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid #eee;
 }
 
 /* ============================================
-   CHECKOUT PAGE
+   21. CHECKOUT PAGE
    ============================================ */
-
 .checkout-container {
     max-width: 800px;
     margin: 0 auto;
@@ -1236,7 +1472,7 @@ tr:hover {
 
 .resumen-pedido {
     background: var(--light);
-    border-radius: 12px;
+    border-radius: var(--border-radius-sm);
     padding: 1rem;
     margin-bottom: 1rem;
 }
@@ -1275,7 +1511,7 @@ tr:hover {
     min-width: 120px;
     padding: 1rem;
     border: 2px solid #e0e0e0;
-    border-radius: 12px;
+    border-radius: var(--border-radius-sm);
     text-align: center;
     cursor: pointer;
     transition: var(--transition);
@@ -1305,7 +1541,7 @@ tr:hover {
     background: #25D366;
     color: white;
     border: none;
-    border-radius: 50px;
+    border-radius: var(--border-radius-lg);
     font-weight: 700;
     font-size: 1.1rem;
     cursor: pointer;
@@ -1337,10 +1573,421 @@ tr:hover {
 }
 
 /* ============================================
-   RESPONSIVE
+   22. TABS NAVEGACIÓN (DOMICILIARIO)
+   ============================================ */
+.tabs-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 3px solid var(--light);
+    padding-bottom: 0.5rem;
+}
+
+.tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-radius: 12px 12px 0 0;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gray);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.tab-btn:hover {
+    color: var(--dark);
+    background: var(--light);
+}
+
+.tab-btn.active {
+    color: var(--primary);
+    background: white;
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--primary);
+    border-radius: 3px 3px 0 0;
+}
+
+.tab-badge {
+    background: var(--primary);
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    margin-left: 0.3rem;
+}
+
+/* Contenido de tabs */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   23. HISTORIAL Y ESTADÍSTICAS
+   ============================================ */
+.historial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.historial-stats {
+    display: flex;
+    gap: 1rem;
+}
+
+.stat-box {
+    background: white;
+    padding: 1rem 1.5rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    min-width: 120px;
+}
+
+.stat-box i {
+    font-size: 1.5rem;
+    color: var(--success);
+    margin-bottom: 0.5rem;
+}
+
+.stat-box span {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.stat-box small {
+    color: var(--gray);
+    font-size: 0.8rem;
+}
+
+/* Filtros de historial */
+.filtros-historial {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.filtro-btn {
+    padding: 0.6rem 1.2rem;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--gray);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filtro-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.filtro-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+/* Cards de historial */
+.historial-card {
+    opacity: 0.85;
+    border-left-color: var(--success) !important;
+}
+
+.historial-card:hover {
+    opacity: 1;
+}
+
+.fecha-entrega {
+    background: var(--success);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.historial-acciones {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tiempo-entrega {
+    color: var(--gray);
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.tiempo-entrega i {
+    color: var(--accent);
+    margin-right: 0.3rem;
+}
+
+/* ============================================
+   24. NOTIFICACIONES EN TIEMPO REAL (ADMIN)
    ============================================ */
 
+/* ---------- 24.1 Notificación Base Flotante ---------- */
+.notificacion-flotante {
+    position: fixed;
+    top: 100px;
+    right: -400px;
+    background: white;
+    border-radius: 16px;
+    padding: 1.2rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 3000;
+    max-width: 380px;
+    border-left: 5px solid var(--success);
+    transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.notificacion-flotante.mostrar {
+    right: 20px;
+}
+
+/* ---------- 24.2 Variantes de Notificación ---------- */
+
+/* Nuevo domiciliario registrado */
+.notificacion-nuevo-domi {
+    border-left-color: var(--accent);
+    background: linear-gradient(135deg, #ffffff 0%, #f0fffa 100%);
+}
+
+.notificacion-nuevo-domi .notif-icon {
+    background: linear-gradient(135deg, var(--accent), #2A9D8F);
+    animation: pulse-icon 2s infinite;
+}
+
+/* Nuevo pedido urgente */
+.notificacion-pedido-urgente {
+    border-left-color: var(--primary);
+    background: linear-gradient(135deg, #ffffff 0%, #fff5f5 100%);
+    max-width: 420px;
+}
+
+.notificacion-pedido-urgente .notif-icon {
+    width: 55px;
+    height: 55px;
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, var(--primary), #ff6b6b);
+    animation: pulse-urgente 1s infinite;
+}
+
+/* ---------- 24.3 Icono y Animaciones ---------- */
+.notif-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+@keyframes pulse-icon {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes pulse-urgente {
+    0%, 100% { 
+        transform: scale(1); 
+        box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7);
+    }
+    50% { 
+        transform: scale(1.1); 
+        box-shadow: 0 0 0 15px rgba(230, 57, 70, 0);
+    }
+}
+
+/* ---------- 24.4 Contenido de Notificación ---------- */
+.notif-content {
+    flex: 1;
+}
+
+.notif-content h4 {
+    margin: 0 0 0.3rem 0;
+    color: var(--dark);
+    font-size: 1.1rem;
+}
+
+.notif-content p {
+    margin: 0;
+    color: var(--gray);
+    font-size: 0.95rem;
+}
+
+.notif-content small {
+    color: var(--accent);
+    font-size: 0.8rem;
+}
+
+/* ---------- 24.5 Acciones (Botones y Cierre) ---------- */
+.notif-acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.notif-close {
+    background: none;
+    border: none;
+    color: var(--gray);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.notif-close:hover {
+    background: var(--light);
+    color: var(--danger);
+}
+
+/* Botón Asignar Ahora (en notificación de pedido) */
+.btn-asignar-ahora {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-asignar-ahora:hover {
+    background: #c62828;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(230, 57, 70, 0.4);
+}
+
+/* ---------- 24.6 Banner Activación de Audio ---------- */
+.notificacion-activacion {
+    position: fixed;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--primary), #d32f3f);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow-urgent);
+    z-index: 2500;
+    animation: slideDown 0.5s ease;
+}
+
+.notificacion-activacion i {
+    font-size: 1.2rem;
+}
+
+.notificacion-activacion button {
+    background: white;
+    color: var(--primary);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.notificacion-activacion button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* ---------- 24.7 Indicador de Estado en Vivo ---------- */
+.indicador-en-vivo {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    padding: 0.6rem 1rem;
+    border-radius: 25px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--gray);
+    z-index: 100;
+}
+
+.indicador-en-vivo::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--success);
+    border-radius: 50%;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* ============================================
+   25. RESPONSIVE DESIGN
+   ============================================ */
 @media (max-width: 768px) {
+    /* Navegación móvil */
     .nav-links {
         display: none;
         position: absolute;
@@ -1362,6 +2009,7 @@ tr:hover {
         display: block;
     }
     
+    /* Hero */
     .hero {
         padding: 4rem 0 3rem;
     }
@@ -1374,10 +2022,12 @@ tr:hover {
         font-size: 1.5rem;
     }
     
+    /* Grids */
     .stores-grid, .menu-grid {
         grid-template-columns: 1fr;
     }
     
+    /* Carrito */
     .cart-panel {
         max-width: 100%;
     }
@@ -1398,6 +2048,7 @@ tr:hover {
         left: 20px;
     }
     
+    /* Admin */
     .admin-grid {
         grid-template-columns: 1fr;
     }
@@ -1410,6 +2061,7 @@ tr:hover {
         grid-template-columns: 1fr;
     }
     
+    /* Tablas */
     table {
         font-size: 0.85rem;
     }
@@ -1418,8 +2070,111 @@ tr:hover {
         padding: 0.6rem;
     }
     
+    /* Modales */
     .modal-content {
         padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    #modalAsignarDomiciliario .modal-content {
+        max-width: 100%;
+        margin: 0.5rem;
+        padding: 1.2rem;
+    }
+    
+    /* Domiciliarios en modal */
+    .domiciliario-item {
+        padding: 12px;
+    }
+    
+    .domiciliario-item > div:first-child {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+    
+    /* Tabs */
+    .tabs-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .tab-btn {
+        white-space: nowrap;
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Historial */
+    .historial-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .historial-stats {
+        width: 100%;
+        justify-content: space-around;
+    }
+    
+    .stat-box {
+        flex: 1;
+        padding: 0.8rem;
+    }
+    
+    /* Notificaciones flotantes en móvil */
+    .notificacion-flotante {
+        left: 10px;
+        right: 10px;
+        max-width: none;
+        top: auto;
+        bottom: -200px;
+        border-left: none;
+        border-top: 5px solid var(--success);
+    }
+    
+    .notificacion-flotante.mostrar {
+        right: 10px;
+        left: 10px;
+        bottom: 20px;
+    }
+    
+    .notificacion-nuevo-domi {
+        border-left: none;
+        border-top-color: var(--accent);
+    }
+    
+    .notificacion-pedido-urgente {
+        border-left: none;
+        border-top-color: var(--primary);
+        flex-wrap: wrap;
+    }
+    
+    .notif-acciones {
+        flex-direction: row;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+    
+    .btn-asignar-ahora {
+        flex: 1;
+        justify-content: center;
+    }
+    
+    /* Banner de activación en móvil */
+    .notificacion-activacion {
+        top: 80px;
+        left: 10px;
+        right: 10px;
+        transform: none;
+        border-radius: var(--border-radius);
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    @keyframes slideDown {
+        from { transform: translateY(-100px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
     }
 }
 
@@ -1439,5 +2194,258 @@ tr:hover {
     
     .caja-precio {
         min-width: 100%;
+    }
+    
+    .btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    .modal-header h3 {
+        font-size: 1.1rem;
+    }
+}
+/* ============================================
+   HISTORIAL DE PEDIDOS - ADMIN
+   ============================================ */
+
+/* Header del historial con controles */
+.historial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background: white;
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.historial-titulo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.3rem;
+    color: var(--dark);
+    margin: 0;
+}
+
+.historial-controles {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Filtros */
+.filtro-grupo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filtro-grupo label {
+    font-weight: 500;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.filtro-grupo select,
+.filtro-grupo input {
+    padding: 0.6rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    min-width: 200px;
+    transition: var(--transition);
+}
+
+.filtro-grupo select:focus,
+.filtro-grupo input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* Botones de acción masiva */
+.acciones-masivas {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    background: var(--light);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-accion-masiva {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+}
+
+.btn-eliminar-masivo {
+    background: var(--danger);
+    color: white;
+}
+
+.btn-eliminar-masivo:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+}
+
+.btn-exportar {
+    background: var(--accent);
+    color: white;
+}
+
+.btn-exportar:hover {
+    background: #218838;
+    transform: translateY(-2px);
+}
+
+.contador-seleccionados {
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-left: auto;
+}
+
+/* Tabla de historial */
+.tabla-historial-container {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+#tablaHistorialPedidos {
+    margin: 0;
+}
+
+#tablaHistorialPedidos th {
+    background: var(--dark);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+#tablaHistorialPedidos th:first-child {
+    width: 50px;
+    text-align: center;
+}
+
+#tablaHistorialPedidos td {
+    vertical-align: middle;
+}
+
+/* Checkbox personalizado */
+.checkbox-pedido {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--primary);
+}
+
+#checkboxTodos {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--primary);
+}
+
+/* Fila seleccionada */
+.fila-seleccionada {
+    background: #fff5f5 !important;
+    transition: background 0.2s ease;
+}
+
+.fila-seleccionada td {
+    border-left: 3px solid var(--primary);
+}
+
+/* Tag de domiciliario */
+.domiciliario-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--light);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--dark);
+    font-weight: 500;
+}
+
+.domiciliario-tag i {
+    color: var(--accent);
+    font-size: 0.8rem;
+}
+
+/* Contador de resultados */
+.contador-resultados {
+    padding: 1rem 1.5rem;
+    color: var(--gray);
+    font-size: 0.9rem;
+    border-top: 1px solid #eee;
+    background: #fafafa;
+}
+
+/* Responsive historial */
+@media (max-width: 768px) {
+    .historial-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .historial-controles {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .filtro-grupo select,
+    .filtro-grupo input {
+        width: 100%;
+    }
+    
+    .acciones-masivas {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .btn-accion-masiva {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .contador-seleccionados {
+        margin-left: 0;
+        text-align: center;
+        width: 100%;
+    }
+    
+    #tablaHistorialPedidos {
+        font-size: 0.85rem;
+    }
+    
+    #tablaHistorialPedidos th,
+    #tablaHistorialPedidos td {
+        padding: 0.8rem 0.5rem;
+    }
+    
+    .domiciliario-tag {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.5rem;
     }
 }

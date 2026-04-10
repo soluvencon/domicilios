@@ -3,7 +3,7 @@
 // ============================================
 
 // ⚠️ REEMPLAZA ESTA URL CON LA URL DE TU GOOGLE APPS SCRIPT
-const API_URL = "https://script.google.com/macros/s/AKfycbxktEAR00Ubq0LwST0UzLNUdU3PAatFb7ourNEYKJz-qnlNM2kOsg6C0Ct5gQBhT_jNSA/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbwCwYXE9bAxvxp6m8FuXOwi-c5_DLVCc5vnKQqJVGn0aDdRcogkcwmGGQ-e99n4vsX4KA/exec";
 
 const APP_CONFIG = {
     nombre: "SOLUVENCON",

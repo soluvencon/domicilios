@@ -3,16 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin - SOLUVENCON</title>
+    <title>Panel Admin - DOMICILIOS SANTUARIO </title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
     <header>
+        
+        <!-- Banner de activación de notificaciones (se oculta después de activar) -->
+<div id="activar-notificaciones-banner" style="display: none;">
+    <div class="notificacion-activacion">
+        <i class="fas fa-bell"></i>
+        <span>Activa las notificaciones para recibir alertas de sonido</span>
+        <button onclick="activarNotificaciones()">
+            <i class="fas fa-volume-up"></i> Activar
+        </button>
+    </div>
+</div>
         <div class="container">
             <nav>
-                <a href="index.html" class="logo"><i class="fas fa-utensils"></i> SOLU<span>VENCON</span></a>
+                <a href="index.html" class="logo"><i class="fas fa-utensils"></i> DOMI<span>CILIOS</span></a>
                 <ul class="nav-links">
                     <li><span id="user-display" style="color: var(--secondary); font-weight: 500;"></span></li>
                     <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
@@ -112,7 +123,78 @@
             </div>
         </div>
     </main>
-
+     <!-- Sección Historial de Pedidos -->
+<section class="admin-card" id="seccionHistorial">
+    <div class="historial-header">
+        <h3 class="historial-titulo">
+            <i class="fas fa-history"></i>
+            Historial de Pedidos Entregados
+        </h3>
+        
+        <div class="historial-controles">
+            <div class="filtro-grupo">
+                <label for="filtroDomiciliarioHistorial">
+                    <i class="fas fa-filter"></i>
+                </label>
+                <select id="filtroDomiciliarioHistorial" onchange="filtrarHistorialPorDomiciliario()">
+                    <option value="">Todos los domiciliarios</option>
+                    <!-- Se llena dinámicamente -->
+                </select>
+            </div>
+            
+            <div class="filtro-grupo">
+                <label for="buscarHistorial">
+                    <i class="fas fa-search"></i>
+                </label>
+                <input type="text" id="buscarHistorial" placeholder="Buscar cliente, teléfono..." 
+                       onkeyup="buscarEnHistorial()">
+            </div>
+        </div>
+    </div>
+    
+    <!-- Acciones masivas -->
+    <div class="acciones-masivas" id="accionesMasivas" style="display: none;">
+        <button class="btn-accion-masiva btn-eliminar-masivo" id="btnEliminarSeleccionados" 
+                onclick="eliminarPedidosSeleccionados()">
+            <i class="fas fa-trash"></i>
+            Eliminar seleccionados
+        </button>
+        
+        <button class="btn-accion-masiva btn-exportar" onclick="exportarHistorialCSV()">
+            <i class="fas fa-file-csv"></i>
+            Exportar CSV
+        </button>
+        
+        <span class="contador-seleccionados" id="contadorSeleccionados"></span>
+    </div>
+    
+    <!-- Tabla de historial -->
+    <div class="tabla-historial-container">
+        <table id="tablaHistorialPedidos">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="checkboxTodos" onchange="toggleSeleccionarTodos(this)">
+                    </th>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Total</th>
+                    <th>Domiciliario</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Se llena dinámicamente -->
+            </tbody>
+        </table>
+        
+        <div class="contador-resultados" id="contadorHistorial">
+            0 pedidos
+        </div>
+    </div>
+</section>
     <!-- Modal Nueva/Editar Tienda -->
     <div id="modalTienda" class="modal">
         <div class="modal-content">
@@ -207,11 +289,47 @@
             </div>
         </div>
     </div>
+    <!-- Indicador de sistema en vivo -->
+<div class="indicador-en-vivo" id="indicador-vivo">
+    <i class="fas fa-wifi"></i> Sistema en vivo
+</div>
+    <!-- Modal Asignar Domiciliario -->
+<div id="modalAsignarDomiciliario" class="modal">
+    <div class="modal-content" style="max-width: 500px;">
+        <div class="modal-header">
+            <h3><i class="fas fa-user-plus"></i> Asignar Domiciliario</h3>
+            <button class="close-modal" onclick="cerrarModalAsignarDomiciliario()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <p style="margin-bottom: 1rem; color: #666;">
+                Pedido #<strong id="asignarPedidoId" style="color: #0a2a36;"></strong>
+            </p>
+            
+            <!-- Buscador -->
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label><i class="fas fa-search"></i> Buscar domiciliario:</label>
+                <input type="text" id="buscarDomiciliario" placeholder="Escribe nombre o ID..." 
+                       onkeyup="filtrarDomiciliarios()" 
+                       style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;">
+            </div>
+            
+            <!-- Lista de domiciliarios -->
+            <div id="listaDomiciliarios" style="max-height: 300px; overflow-y: auto;">
+                <!-- Se llena dinámicamente -->
+            </div>
+            
+            <div id="sinResultados" style="display: none; text-align: center; padding: 2rem; color: #999;">
+                <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                <p>No se encontraron domiciliarios</p>
+            </div>
+        </div>
+    </div>
+</div>
 
     <footer>
         <div class="container">
             <div class="footer-bottom">
-                <p>&copy; 2025 SOLUVENCON - Panel de Administración</p>
+                <p>&copy; 2025 DOMICILIOS - Panel de Administración</p>
             </div>
         </div>
     </footer>
@@ -224,5 +342,7 @@
             cargarAdminData();
         }
     </script>
+    
 </body>
+
 </html>
