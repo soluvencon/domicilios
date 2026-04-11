@@ -3,7 +3,7 @@
 // ============================================
 
 // URL del backend Node.js (cambia si el servidor está en otra IP/puerto)
-const API_URL = "http://localhost:3000/api";
+const API_URL = "https://domicilios-domicilios.up.railway.app/api";
 
 const APP_CONFIG = {
     nombre: "SOLUVENCON",
@@ -94,7 +94,7 @@ let socket = null;
 function conectarSocket(rol, id) {
     if (socket && socket.connected) return socket;
     
-    socket = io("http://localhost:3000");
+    socket = io("https://domicilios-domicilios.up.railway.app");
     
     socket.on('connect', () => {
         console.log('✅ Conectado a Socket.IO');
