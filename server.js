@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 // ⚠️ REEMPLAZA CON LA URL DE TU GOOGLE APPS SCRIPT
 const GAS_URL = "https://script.google.com/macros/s/AKfycbwCwYXE9bAxvxp6m8FuXOwi-c5_DLVCc5vnKQqJVGn0aDdRcogkcwmGGQ-e99n4vsX4KA/exec";
 
-app.use('/api', async (req, res) => {
+app.all('/api', async (req, res) => {
   try {
     const action = req.query.action || req.body.action;
     if (!action) {
