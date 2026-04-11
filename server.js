@@ -8,14 +8,28 @@ require('dotenv').config();
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
-  cors: { origin: "*", methods: ["GET", "POST"] }
+  cors: { 
+    origin: ["https://soluvencon.github.io", "http://localhost:3000", "http://127.0.0.1:5500"], 
+    methods: ["GET", "POST"] 
+  }
 });
 
-app.use(cors());
+// CORS para Express
+app.use(cors({
+  origin: ["https://soluvencon.github.io", "http://localhost:3000", "http://127.0.0.1:5500"],
+  methods: ["GET", "POST"],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ⚠️ REEMPLAZA CON LA URL DE TU GOOGLE APPS SCRIPT
+// Ruta raíz para health check
+app.get('/', (req, res) => {
+  res.json({ status: 'online', api: '/api', message: 'Backend Domicilios OK' });
+});
+
+// URL de Google Apps Script
 const GAS_URL = "https://script.google.com/macros/s/AKfycbwCwYXE9bAxvxp6m8FuXOwi-c5_DLVCc5vnKQqJVGn0aDdRcogkcwmGGQ-e99n4vsX4KA/exec";
 
 app.all('/api', async (req, res) => {
@@ -25,7 +39,6 @@ app.all('/api', async (req, res) => {
       return res.status(400).json({ success: false, error: 'Falta action' });
     }
 
-    // Construir URL de GAS
     let gasUrl = `${GAS_URL}?action=${action}`;
     for (let key in req.query) { 
       if (key !== 'action') gasUrl += `&${key}=${encodeURIComponent(req.query[key])}`;
@@ -44,7 +57,6 @@ app.all('/api', async (req, res) => {
     const data = response.data;
     res.json(data);
 
-    // --- Emisión de eventos Socket.IO según la acción ---
     if (data.success) {
       switch (action) {
         case 'crearPedido':
@@ -65,10 +77,8 @@ app.all('/api', async (req, res) => {
         case 'asignarDomiciliario':
           const pedidoId = req.body.pedidoId || req.query.pedidoId;
           const domiciliarioId = req.body.domiciliarioId || req.query.domiciliarioId;
-          console.log(`📢 Asignando pedido ${pedidoId} a domiciliario ${domiciliarioId}`);
           io.emit('pedidoAsignado', { pedidoId, domiciliarioId });
           io.to(`domiciliario_${domiciliarioId}`).emit('nuevoPedidoAsignado', { pedidoId });
-          console.log(`✅ Evento 'nuevoPedidoAsignado' emitido a sala domiciliario_${domiciliarioId}`);
           break;
 
         case 'crearDomiciliario':
@@ -88,7 +98,6 @@ app.all('/api', async (req, res) => {
   }
 });
 
-// Función auxiliar para obtener un pedido por ID (útil para el evento nuevoPedido)
 async function obtenerPedidoPorId(pedidoId) {
   try {
     const gasUrl = `${GAS_URL}?action=getPedidos`;
@@ -101,13 +110,12 @@ async function obtenerPedidoPorId(pedidoId) {
   }
 }
 
-// Socket.IO
 io.on('connection', (socket) => {
   console.log('Cliente conectado:', socket.id);
   socket.on('identificar', ({ rol, id }) => {
     if (rol === 'domiciliario' && id) {
       socket.join(`domiciliario_${id}`);
-      console.log(`Domiciliario ${id} unido a sala domiciliario_${id}`);
+      console.log(`Domiciliario ${id} unido a sala`);
     } else if (rol === 'admin') {
       socket.join('admin_room');
       console.log('Admin conectado');
@@ -117,4 +125,6 @@ io.on('connection', (socket) => {
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor corriendo en puerto ${PORT}`);
+});

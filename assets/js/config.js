@@ -3,6 +3,11 @@
 // ============================================
 
 // URL del backend Node.js (cambia si el servidor está en otra IP/puerto)
+// ============================================
+// config.js - Configuración global con Socket.IO
+// ============================================
+
+// URL del backend Node.js
 const API_URL = "https://domicilios-domicilios.up.railway.app/api";
 
 const APP_CONFIG = {
