@@ -408,14 +408,17 @@ async function guardarProducto() {
         mostrarNotificacion("Selecciona una tienda", "error");
         return;
     }
+    
+    // CORREGIDO: Usar imagen_url en lugar de icono
     const datos = {
         tiendaId: tiendaId,
         nombre: document.getElementById("productoNombre").value.trim(),
         descripcion: document.getElementById("productoDescripcion").value.trim(),
         precio: document.getElementById("productoPrecio").value,
-        icono: document.getElementById("productoIcono").value.trim(),
+        imagen_url: document.getElementById("productoImagen").value.trim(),  // ← CORREGIDO
         badge: document.getElementById("productoBadge").value.trim()
     };
+    
     if (!datos.nombre || !datos.precio) {
         mostrarNotificacion("Nombre y precio obligatorios", "error");
         return;
@@ -456,7 +459,7 @@ async function editarProducto(id) {
     document.getElementById("productoNombre").value = producto.nombre;
     document.getElementById("productoDescripcion").value = producto.descripcion || '';
     document.getElementById("productoPrecio").value = producto.precio;
-    document.getElementById("productoIcono").value = producto.icono || 'fa-utensils';
+    document.getElementById("productoImagen").value = producto.imagen_url || '';  // ← CORREGIDO
     document.getElementById("productoBadge").value = producto.badge || '';
     document.getElementById("modalProducto").classList.add("active");
 }
@@ -477,7 +480,6 @@ async function eliminarProducto(id) {
         mostrarNotificacion("Error de conexión", "error");
     }
 }
-
 // ============================================
 // DOMICILIARIOS
 // ============================================

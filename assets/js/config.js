@@ -15,13 +15,14 @@ const APP_CONFIG = {
     telefonoWhatsApp: "573005005306",
     envioBase: 2000,
     zonaActual: "centro",
-    zonas: {
-        centro: { nombre: "Centro", envio: 2000 },
-        norte: { nombre: "Norte", envio: 3000 },
-        sur: { nombre: "Sur", envio: 3500 },
-        oriente: { nombre: "Oriente", envio: 2500 },
-        occidente: { nombre: "Occidente", envio: 2800 }
-    }
+    // ✅ CORREGIDO - Coincide con tu HTML
+zonas: {
+    centro: { nombre: "Parque principal", envio: 3000 },
+    norte: { nombre: "La judea", envio: 3500 },
+    sur: { nombre: "La chapa", envio: 4000 },
+    oriente: { nombre: "Vargas", envio: 7000 },
+    occidente: { nombre: "Sale marinilla", envio: 3500 }
+}
 };
 
 // Funciones de sesión

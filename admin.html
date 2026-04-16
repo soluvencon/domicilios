@@ -219,46 +219,51 @@
     </div>
 
     <!-- Modal Nuevo/Editar Producto -->
-    <div id="modalProducto" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalProductoTitulo"><i class="fas fa-box"></i> Nuevo Producto</h3>
-                <button class="close-modal" onclick="cerrarModalProducto()"><i class="fas fa-times"></i></button>
-            </div>
-            <form id="formProducto" onsubmit="event.preventDefault(); guardarProducto();">
-                <div class="form-group">
-                    <label><i class="fas fa-store"></i> Tienda *</label>
-                    <select id="productoTiendaId" required>
-                        <option value="">-- Selecciona una tienda --</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-tag"></i> Nombre del producto *</label>
-                    <input type="text" id="productoNombre" required placeholder="Ej: Hamburguesa Sencilla">
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-align-left"></i> Descripción</label>
-                    <textarea id="productoDescripcion" rows="2" placeholder="Ingredientes, detalles..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-dollar-sign"></i> Precio *</label>
-                    <input type="number" id="productoPrecio" required min="0" placeholder="10000">
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-icons"></i> Icono (clase FontAwesome)</label>
-                    <input type="text" id="productoIcono" value="fa-utensils" placeholder="fa-hamburger">
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-award"></i> Badge (etiqueta especial)</label>
-                    <input type="text" id="productoBadge" placeholder="Ej: Más pedida, Oferta, etc.">
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="cerrarModalProducto()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar Producto</button>
-                </div>
-            </form>
+    <!-- Modal Nuevo/Editar Producto -->
+<div id="modalProducto" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalProductoTitulo"><i class="fas fa-box"></i> Nuevo Producto</h3>
+            <button class="close-modal" onclick="cerrarModalProducto()"><i class="fas fa-times"></i></button>
         </div>
+        <form id="formProducto" onsubmit="event.preventDefault(); guardarProducto();">
+            <div class="form-group">
+                <label><i class="fas fa-store"></i> Tienda *</label>
+                <select id="productoTiendaId" required>
+                    <option value="">-- Selecciona una tienda --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-tag"></i> Nombre del producto *</label>
+                <input type="text" id="productoNombre" required placeholder="Ej: Hamburguesa Sencilla">
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-align-left"></i> Descripción</label>
+                <textarea id="productoDescripcion" rows="2" placeholder="Ingredientes, detalles..."></textarea>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-dollar-sign"></i> Precio *</label>
+                <input type="number" id="productoPrecio" required min="0" placeholder="10000">
+            </div>
+            
+            <!-- CORREGIDO: Cambiado de Icono a URL Imagen -->
+            <div class="form-group">
+                <label><i class="fas fa-image"></i> URL Imagen</label>
+                <input type="url" id="productoImagen" placeholder="https://raw.githubusercontent.com/soluvencon/imagenes-domicilios/...">
+                <small style="color: var(--gray); font-size: 0.8rem;">Pega aquí la URL de la imagen (GitHub, Drive, etc.)</small>
+            </div>
+            
+            <div class="form-group">
+                <label><i class="fas fa-award"></i> Badge (etiqueta especial)</label>
+                <input type="text" id="productoBadge" placeholder="Ej: Más pedida, Oferta, etc.">
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="cerrarModalProducto()">Cancelar</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar Producto</button>
+            </div>
+        </form>
     </div>
+</div>
 
     <!-- Modal Detalle Pedido -->
     <div id="modalPedido" class="modal">

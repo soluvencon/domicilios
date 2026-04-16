@@ -121,6 +121,40 @@ async function verMenuTienda(tiendaId) {
             return;
         }
         
+        // CORREGIDO: Generar HTML con imágenes
+        let productosHTML = productos.map(p => {
+            // Verificar si tiene imagen
+            const tieneImagen = p.imagen_url && p.imagen_url.trim() !== '';
+            
+            return `
+            <div class="product-card">
+                <div class="product-img" style="${tieneImagen ? `background-image: url('${p.imagen_url}');` : ''}">
+                    ${!tieneImagen ? `<i class="fas fa-utensils"></i>` : ''}
+                    ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ""}
+                </div>
+                <div class="product-info">
+                    <h4>${p.nombre}</h4>
+                    <p class="product-desc">${p.descripcion || ''}</p>
+                    <div class="product-price">${formatearPrecio(p.precio)}</div>
+                    <div class="precios-mayoristas">
+                        <div class="caja-precio" onclick="event.stopPropagation(); agregarAlCarrito(${JSON.stringify(p).replace(/"/g, '&quot;')}, 1)">
+                            <span class="cantidad">1 UND</span>
+                            <span class="valor">${formatearPrecio(p.precio)}</span>
+                        </div>
+                        <div class="caja-precio" onclick="event.stopPropagation(); agregarAlCarrito(${JSON.stringify(p).replace(/"/g, '&quot;')}, 6)">
+                            <span class="cantidad">6 UND</span>
+                            <span class="valor">${formatearPrecio(p.precio * 5.5)}</span>
+                        </div>
+                        <div class="caja-precio" onclick="event.stopPropagation(); agregarAlCarrito(${JSON.stringify(p).replace(/"/g, '&quot;')}, 12)">
+                            <span class="cantidad">12 UND</span>
+                            <span class="valor">${formatearPrecio(p.precio * 10)}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+        }).join('');
+        
         container.innerHTML = `
             <button class="back-button" onclick="cargarTiendas()"><i class="fas fa-arrow-left"></i> Volver a tiendas</button>
             <div class="menu-header">
@@ -128,37 +162,10 @@ async function verMenuTienda(tiendaId) {
                 <p>${tienda.descripcion || ""}</p>
             </div>
             <div class="menu-grid">
-                ${productos.map(p => `
-                    <div class="product-card">
-                        <div class="product-img">
-                            <i class="fas ${p.icono || 'fa-utensils'}"></i>
-                            ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ""}
-                        </div>
-                        <div class="product-info">
-                            <h4>${p.nombre}</h4>
-                            <p class="product-desc">${p.descripcion || ''}</p>
-                            <div class="product-price">${formatearPrecio(p.precio)}</div>
-                            <div class="precios-mayoristas">
-                                <div class="caja-precio" onclick="event.stopPropagation(); agregarAlCarrito(${JSON.stringify(p).replace(/"/g, '&quot;')}, 1)">
-                                    <span class="cantidad">1 UND</span>
-                                    <span class="valor">${formatearPrecio(p.precio)}</span>
-                                </div>
-                                <div class="caja-precio" onclick="event.stopPropagation(); agregarAlCarrito(${JSON.stringify(p).replace(/"/g, '&quot;')}, 6)">
-                                    <span class="cantidad">6 UND</span>
-                                    <span class="valor">${formatearPrecio(p.precio * 5.5)}</span>
-                                </div>
-                                <div class="caja-precio" onclick="event.stopPropagation(); agregarAlCarrito(${JSON.stringify(p).replace(/"/g, '&quot;')}, 12)">
-                                    <span class="cantidad">12 UND</span>
-                                    <span class="valor">${formatearPrecio(p.precio * 10)}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `).join('')}
+                ${productosHTML}
             </div>
         `;
         
-        // Scroll al inicio
         window.scrollTo({ top: 0, behavior: 'smooth' });
         
     } catch (error) {
@@ -168,7 +175,6 @@ async function verMenuTienda(tiendaId) {
         mostrarCargando(false);
     }
 }
-
 function agregarAlCarrito(producto, cantidadTipo) {
     let precioUnitario = producto.precio;
     if (cantidadTipo === 6) precioUnitario = producto.precio * 5.5;
