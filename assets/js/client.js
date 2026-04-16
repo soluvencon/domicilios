@@ -1,37 +1,34 @@
 // ============================================
-// client.js - Lógica del cliente
+// client.js - FUSIÓN DOCUMENTADA
 // ============================================
 
 let tiendas = [];
 let carrito = [];
 
-// Inicializar carrito desde localStorage
 document.addEventListener("DOMContentLoaded", () => {
     carrito = obtenerCarrito();
     inicializarEventos();
-    if (document.getElementById("stores-grid") && typeof cargarTiendas === "function") {
-        cargarTiendas();
-    }
+    if (document.getElementById("stores-grid")) cargarTiendas();
 });
 
 function inicializarEventos() {
-    // Eventos del carrito
     const closeCart = document.getElementById("close-cart");
     const cartFloat = document.getElementById("cart-float");
-    const cartPanel = document.getElementById("cart-panel");
     const cartOverlay = document.getElementById("cart-overlay");
     const checkoutBtn = document.getElementById("checkout-whatsapp");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const navLinks = document.getElementById("nav-links");
     
     if (closeCart) closeCart.onclick = cerrarCarrito;
     if (cartFloat) cartFloat.onclick = abrirCarrito;
     if (cartOverlay) cartOverlay.onclick = cerrarCarrito;
     if (checkoutBtn) checkoutBtn.onclick = irACheckout;
     
-    // Menú móvil
-    const mobileMenu = document.getElementById("mobile-menu");
-    const navLinks = document.getElementById("nav-links");
     if (mobileMenu && navLinks) {
-        mobileMenu.onclick = () => navLinks.classList.toggle("active");
+        mobileMenu.onclick = () => {
+            navLinks.classList.toggle("active");
+            mobileMenu.classList.toggle("active"); // Tu código: anima el icono
+        };
     }
 }
 
@@ -40,6 +37,7 @@ function abrirCarrito() {
     const cartOverlay = document.getElementById("cart-overlay");
     if (cartPanel) cartPanel.classList.add("active");
     if (cartOverlay) cartOverlay.classList.add("active");
+    document.body.style.overflow = "hidden"; // Tu código: bloquea scroll
 }
 
 function cerrarCarrito() {
@@ -47,9 +45,13 @@ function cerrarCarrito() {
     const cartOverlay = document.getElementById("cart-overlay");
     if (cartPanel) cartPanel.classList.remove("active");
     if (cartOverlay) cartOverlay.classList.remove("active");
+    document.body.style.overflow = ""; // Tu código: libera scroll
 }
 
 async function cargarTiendas() {
+    const container = document.getElementById("stores-grid");
+    if (!container) return;
+    
     try {
         const res = await fetch(`${API_URL}?action=getTiendas`);
         const data = await res.json();
@@ -57,8 +59,16 @@ async function cargarTiendas() {
         renderizarTiendas();
     } catch (error) {
         console.error("Error cargando tiendas", error);
-        tiendas = [];
-        renderizarTiendas();
+        // Tu código: botón de reintentar
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-store-slash"></i>
+                <p>No hay tiendas disponibles</p>
+                <button onclick="cargarTiendas()" class="btn-retry">
+                    <i class="fas fa-redo"></i> Reintentar
+                </button>
+            </div>
+        `;
     }
 }
 
@@ -67,19 +77,18 @@ function renderizarTiendas() {
     if (!container) return;
     
     if (tiendas.length === 0) {
-        container.innerHTML = `
-            <div class="empty-state">
-                <i class="fas fa-store-slash"></i>
-                <p>No hay tiendas disponibles en este momento</p>
-            </div>
-        `;
+        container.innerHTML = `<div class="empty-state"><i class="fas fa-store-slash"></i><p>No hay tiendas</p></div>`;
         return;
     }
     
-    container.innerHTML = tiendas.map(tienda => `
+    container.innerHTML = tiendas.map(tienda => {
+        const tieneImagen = tienda.imagen && tienda.imagen.trim() !== '';
+        return `
         <div class="store-card" onclick="verMenuTienda(${tienda.id})">
-            <div class="store-img" style="background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.5)), url('${tienda.imagen || 'https://via.placeholder.com/400x300'}');">
+            <div class="store-img" style="${tieneImagen ? `background-image: url('${tienda.imagen}');` : ''}">
+                ${!tieneImagen ? '<i class="fas fa-store"></i>' : ''}
                 <span class="store-badge">⭐ ${tienda.rating || 5}</span>
+                <div class="store-img-overlay"></div> <!-- Tu código: overlay -->
             </div>
             <div class="store-info">
                 <h3>${tienda.nombre}</h3>
@@ -88,10 +97,13 @@ function renderizarTiendas() {
                 <div class="store-rating">${generarEstrellas(tienda.rating || 5)}</div>
             </div>
         </div>
-    `).join('');
+    `}).join('');
 }
 
 async function verMenuTienda(tiendaId) {
+    const container = document.getElementById("stores-grid");
+    if (!container) return;
+    
     try {
         mostrarCargando(true);
         const res = await fetch(`${API_URL}?action=getProductos&tiendaId=${tiendaId}`);
@@ -103,32 +115,27 @@ async function verMenuTienda(tiendaId) {
             return;
         }
         
-        const container = document.getElementById("stores-grid");
-        if (!container) return;
+        // 🔥 FILTRO: Quita objetos vacíos que vienen de la hoja de cálculo
+        const productosValidos = productos.filter(p => p.id && p.id !== '' && p.nombre);
         
-        if (productos.length === 0) {
+        if (productosValidos.length === 0) {
             container.innerHTML = `
                 <button class="back-button" onclick="cargarTiendas()"><i class="fas fa-arrow-left"></i> Volver a tiendas</button>
-                <div class="menu-header">
-                    <h2>${tienda.nombre}</h2>
-                    <p>${tienda.descripcion || ""}</p>
-                </div>
-                <div class="empty-state">
-                    <i class="fas fa-box-open"></i>
-                    <p>Esta tienda aún no tiene productos disponibles</p>
-                </div>
+                <div class="menu-header"><h2>${tienda.nombre}</h2></div>
+                <div class="empty-state"><i class="fas fa-box-open"></i><p>Esta tienda aún no tiene productos</p></div>
             `;
             return;
         }
         
-        // CORREGIDO: Generar HTML con imágenes
-        let productosHTML = productos.map(p => {
-            // Verificar si tiene imagen
-            const tieneImagen = p.imagen_url && p.imagen_url.trim() !== '';
+        // 🔥 CORRECCIÓN: Acepta imagen_url O icono (lo que venga)
+        let productosHTML = productosValidos.map(p => {
+            const imagenUrl = (p.imagen_url || p.icono || '').trim();
+            const tieneImagen = imagenUrl && imagenUrl !== 'null' && imagenUrl !== 'undefined';
             
             return `
             <div class="product-card">
-                <div class="product-img" style="${tieneImagen ? `background-image: url('${p.imagen_url}');` : ''}">
+                <div class="product-img ${tieneImagen ? 'con-imagen' : 'sin-imagen'}" 
+                     ${tieneImagen ? `style="background-image: url('${imagenUrl}');"` : ''}>
                     ${!tieneImagen ? `<i class="fas fa-utensils"></i>` : ''}
                     ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ""}
                 </div>
@@ -136,19 +143,10 @@ async function verMenuTienda(tiendaId) {
                     <h4>${p.nombre}</h4>
                     <p class="product-desc">${p.descripcion || ''}</p>
                     <div class="product-price">${formatearPrecio(p.precio)}</div>
-                    <div class="precios-mayoristas">
-                        <div class="caja-precio" onclick="event.stopPropagation(); agregarAlCarrito(${JSON.stringify(p).replace(/"/g, '&quot;')}, 1)">
-                            <span class="cantidad">1 UND</span>
-                            <span class="valor">${formatearPrecio(p.precio)}</span>
-                        </div>
-                        <div class="caja-precio" onclick="event.stopPropagation(); agregarAlCarrito(${JSON.stringify(p).replace(/"/g, '&quot;')}, 6)">
-                            <span class="cantidad">6 UND</span>
-                            <span class="valor">${formatearPrecio(p.precio * 5.5)}</span>
-                        </div>
-                        <div class="caja-precio" onclick="event.stopPropagation(); agregarAlCarrito(${JSON.stringify(p).replace(/"/g, '&quot;')}, 12)">
-                            <span class="cantidad">12 UND</span>
-                            <span class="valor">${formatearPrecio(p.precio * 10)}</span>
-                        </div>
+                    <div class="precio-unidad-container">
+                        <button class="btn-agregar-unidad" onclick="event.stopPropagation(); agregarAlCarrito(${JSON.stringify(p).replace(/"/g, '&quot;')}, 1)">
+                            <i class="fas fa-plus"></i> Agregar
+                        </button>
                     </div>
                 </div>
             </div>
@@ -157,13 +155,8 @@ async function verMenuTienda(tiendaId) {
         
         container.innerHTML = `
             <button class="back-button" onclick="cargarTiendas()"><i class="fas fa-arrow-left"></i> Volver a tiendas</button>
-            <div class="menu-header">
-                <h2>${tienda.nombre}</h2>
-                <p>${tienda.descripcion || ""}</p>
-            </div>
-            <div class="menu-grid">
-                ${productosHTML}
-            </div>
+            <div class="menu-header"><h2>${tienda.nombre}</h2><p>${tienda.descripcion || ""}</p></div>
+            <div class="menu-grid">${productosHTML}</div>
         `;
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -175,18 +168,16 @@ async function verMenuTienda(tiendaId) {
         mostrarCargando(false);
     }
 }
+
 function agregarAlCarrito(producto, cantidadTipo) {
-    let precioUnitario = producto.precio;
-    if (cantidadTipo === 6) precioUnitario = producto.precio * 5.5;
-    if (cantidadTipo === 12) precioUnitario = producto.precio * 10;
-    
+    // FUSIÓN: Tu estructura (sin forzar cantidadTipo)
     const item = {
         id: producto.id,
         nombre: producto.nombre,
-        precioUnitario: precioUnitario,
-        cantidadTipo: cantidadTipo,
+        precioUnitario: producto.precio,
+        cantidadTipo: cantidadTipo, // Respeta el parámetro
         cantidad: 1,
-        subtotal: precioUnitario
+        subtotal: producto.precio
     };
     
     const existente = carrito.find(i => i.id === item.id && i.cantidadTipo === item.cantidadTipo);
@@ -200,6 +191,13 @@ function agregarAlCarrito(producto, cantidadTipo) {
     guardarCarrito(carrito);
     actualizarCarritoUI();
     mostrarNotificacion(`${producto.nombre} agregado al carrito`);
+    
+    // Tu código: Efecto visual pulse
+    const cartFloat = document.getElementById("cart-float");
+    if (cartFloat) {
+        cartFloat.classList.add("pulse");
+        setTimeout(() => cartFloat.classList.remove("pulse"), 500);
+    }
 }
 
 function actualizarCarritoUI() {
@@ -217,13 +215,19 @@ function actualizarCarritoUI() {
     const cartItemsDiv = document.getElementById("cart-items");
     if (cartItemsDiv) {
         if (carrito.length === 0) {
-            cartItemsDiv.innerHTML = '<div class="cart-empty">🛒 Tu carrito está vacío</div>';
+            cartItemsDiv.innerHTML = `
+                <div class="cart-empty">
+                    <i class="fas fa-shopping-basket"></i>
+                    <p>Tu carrito está vacío</p>
+                </div>
+            `;
         } else {
+            // FUSIÓN: Tu formato con "unidad/es"
             cartItemsDiv.innerHTML = carrito.map((item, idx) => `
                 <div class="cart-item">
                     <div class="cart-item-info">
                         <div class="cart-item-name">${item.nombre}</div>
-                        <div class="cart-item-detail">${item.cantidadTipo} UND x ${item.cantidad}</div>
+                        <div class="cart-item-detail">${item.cantidad} unidad${item.cantidad > 1 ? 'es' : ''}</div>
                         <div class="cart-item-detail">${formatearPrecio(item.precioUnitario)} c/u</div>
                     </div>
                     <div class="cart-item-actions">
@@ -253,12 +257,10 @@ function actualizarCarritoUI() {
 function cambiarCantidad(index, cambio) {
     const item = carrito[index];
     item.cantidad += cambio;
-    
     if (item.cantidad <= 0) {
         eliminarDelCarrito(index);
         return;
     }
-    
     item.subtotal = item.precioUnitario * item.cantidad;
     guardarCarrito(carrito);
     actualizarCarritoUI();
@@ -283,7 +285,13 @@ function mostrarCargando(mostrar) {
     if (!loader) {
         loader = document.createElement("div");
         loader.id = "page-loader";
-        loader.innerHTML = '<div class="spinner"></div>';
+        // FUSIÓN: Tu HTML elaborado
+        loader.innerHTML = `
+            <div class="spinner-container">
+                <div class="spinner"></div>
+                <p>Cargando...</p>
+            </div>
+        `;
         document.body.appendChild(loader);
     }
     loader.style.display = mostrar ? "flex" : "none";

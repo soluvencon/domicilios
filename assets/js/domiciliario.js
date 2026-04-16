@@ -25,7 +25,7 @@ async function cargarDomiciliarioData() {
     
     // Conectar Socket.IO
     const socket = conectarSocket('domiciliario', domiciliarioId);
-    console.log('✅ Socket conectado, esperando eventos...');
+    console.log(' Socket conectado, esperando eventos...');
     
     socket.on('nuevoPedidoAsignado', (data) => {
         console.log('🔔 Evento nuevoPedidoAsignado recibido:', data);

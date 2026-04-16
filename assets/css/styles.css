@@ -409,19 +409,54 @@ nav {
     box-shadow: var(--shadow-hover);
 }
 
+/* ============================================
+   CORRECCIÓN IMÁGENES DE PRODUCTOS
+   ============================================ */
 .product-img {
     height: 180px;
-    background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3rem;
     position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border-radius: 18px 18px 0 0;
 }
 
-.product-img i {
+/* Cuando NO tiene imagen - muestra icono */
+.product-img.sin-imagen {
+    background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+}
+
+.product-img.sin-imagen i {
     font-size: 4rem;
     color: var(--primary);
+    opacity: 0.5;
+}
+
+/* Cuando SÍ tiene imagen - muestra la foto */
+.product-img.con-imagen {
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+
+/* Ocultar icono cuando hay imagen */
+.product-img.con-imagen i {
+    display: none !important;
+}
+
+/* Sombra degradada para que se lea el badge sobre la imagen */
+.product-img.con-imagen::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(0,0,0,0.3) 100%);
+    pointer-events: none;
+    z-index: 1;
 }
 
 .product-badge {
@@ -434,6 +469,8 @@ nav {
     border-radius: 20px;
     font-size: 0.7rem;
     font-weight: 700;
+    z-index: 2;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
 .product-info {
@@ -459,51 +496,11 @@ nav {
     margin-bottom: 0.8rem;
 }
 
-/* Precios por cantidad (mayoristas) */
-.precios-mayoristas {
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
-    flex-wrap: wrap;
+/* Efecto hover en imagen */
+.product-card:hover .product-img.con-imagen {
+    transform: scale(1.05);
 }
 
-.caja-precio {
-    background: var(--light);
-    border: 2px solid var(--accent);
-    border-radius: var(--border-radius-sm);
-    padding: 8px 10px;
-    text-align: center;
-    flex: 1;
-    min-width: 70px;
-    transition: var(--transition);
-    cursor: pointer;
-}
-
-.caja-precio:hover {
-    border-color: var(--primary);
-    background: var(--primary);
-    transform: translateY(-2px);
-}
-
-.caja-precio:hover .cantidad,
-.caja-precio:hover .valor {
-    color: white;
-}
-
-.caja-precio .cantidad {
-    display: block;
-    font-size: 0.65rem;
-    color: var(--gray);
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.caja-precio .valor {
-    display: block;
-    font-size: 0.9rem;
-    color: var(--dark);
-    font-weight: 700;
-}
 
 /* ============================================
    9. CARRITO FLOTANTE Y PANEL
@@ -2535,4 +2532,125 @@ header {
     font-weight: 700;
     z-index: 2;
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+
+/* ============================================
+   BOTÓN AGREGAR POR UNIDAD (CORREGIDO)
+   ============================================ */
+
+.precio-unidad-container {
+    margin-top: 15px;
+    width: 100%;
+}
+
+.btn-agregar-unidad {
+    width: 100%;
+    padding: 12px 20px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+}
+
+.btn-agregar-unidad:hover {
+    background: #d32f3f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
+}
+
+.btn-agregar-unidad:active {
+    transform: translateY(0);
+}
+
+.btn-agregar-unidad i {
+    font-size: 0.9rem;
+}
+
+/* Ajuste para el carrito - ocultar cantidadTipo ya que siempre es 1 */
+.cart-item-detail {
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+/* ============================================
+   CORRECCIÓN IMÁGENES DE PRODUCTOS - AGREGAR AL FINAL
+   ============================================ */
+
+.product-img {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border-radius: 18px 18px 0 0;
+}
+
+/* Cuando NO tiene imagen - fondo gradiente */
+.product-img.sin-imagen {
+    background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+}
+
+.product-img.sin-imagen i {
+    font-size: 4rem;
+    color: var(--primary);
+    opacity: 0.5;
+}
+
+/* Cuando SÍ tiene imagen - FORZAR estilos */
+.product-img.con-imagen {
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-color: #f5f5f5;
+}
+
+/* Overlay para mejorar legibilidad del badge */
+.product-img.con-imagen::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(0,0,0,0.3) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.product-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--primary);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    z-index: 2;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+/* Hover effect en productos con imagen */
+.product-card:hover .product-img.con-imagen {
+    transform: scale(1.05);
+}
+
+/* Asegurar que el contenedor no se desborde */
+.product-card {
+    overflow: hidden;
 }

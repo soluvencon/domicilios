@@ -15,7 +15,7 @@ const APP_CONFIG = {
     telefonoWhatsApp: "573005005306",
     envioBase: 2000,
     zonaActual: "centro",
-    // ✅ CORREGIDO - Coincide con tu HTML
+    //  CORREGIDO - Coincide con tu HTML
 zonas: {
     centro: { nombre: "Parque principal", envio: 3000 },
     norte: { nombre: "La judea", envio: 3500 },
@@ -103,7 +103,7 @@ function conectarSocket(rol, id) {
     socket = io("https://domicilios-domicilios.up.railway.app");
     
     socket.on('connect', () => {
-        console.log('✅ Conectado a Socket.IO');
+        console.log(' Conectado a Socket.IO');
         socket.emit('identificar', { rol, id });
     });
     

@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 });
 
 // URL de Google Apps Script
-const GAS_URL = "https://script.google.com/macros/s/AKfycbz-P3Arzy4i2qmYErlI9OOsa67pfcWTXM4DVB-6M_8qacrfa6OPd8v5EXcbkp-CtEM0lg/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbw72qUwmBHg2jJPDv0dpYJMKJlfK9RnPOTmvtyeZgH8FD5kTjDOTOpKvC9j93nWJpyG4Q/exec";
 
 app.all('/api', async (req, res) => {
   try {
