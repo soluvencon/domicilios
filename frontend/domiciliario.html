@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Domiciliario - SOLUVENCON</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo"><i class="fas fa-utensils"></i> DOMI<span>CILIOS</span></a>
+                <ul class="nav-links">
+                    <li><span id="user-display" style="color: var(--secondary); font-weight: 500;"></span></li>
+                    <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <!-- Banner de permisos (ya lo tienes, se muestra/oculta por JS) -->
+        <div id="permisos-banner" class="notificacion-activacion" style="display: none;">
+            <i class="fas fa-bell-slash"></i>
+            <span>Activa notificaciones para alertas de nuevos pedidos</span>
+            <button onclick="activarPermisos()">
+                <i class="fas fa-bell"></i> Activar
+            </button>
+        </div>
+
+        <div class="container">
+            <div class="tabs-container">
+                <button class="tab-btn active" onclick="cambiarTab('activos')" id="tab-activos">
+                    <i class="fas fa-motorcycle"></i> Pedidos Activos
+                    <span class="tab-badge" id="badge-activos">0</span>
+                </button>
+                <button class="tab-btn" onclick="cambiarTab('historial')" id="tab-historial">
+                    <i class="fas fa-history"></i> Historial
+                    <span class="tab-badge" id="badge-historial">0</span>
+                </button>
+            </div>
+
+            <div id="seccion-activos" class="tab-content active">
+                <h2 class="section-title"><i class="fas fa-motorcycle"></i> Pedidos por Entregar</h2>
+                <div id="pedidos-activos" class="pedidos-grid">
+                    <div class="panel-card empty-state" style="text-align: center; padding: 3rem;">
+                        <div class="spinner" style="margin: 0 auto 1rem;"></div>
+                        <p>Cargando pedidos...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="seccion-historial" class="tab-content">
+                <div class="historial-header">
+                    <h2 class="section-title"><i class="fas fa-history"></i> Historial de Entregas</h2>
+                    <div class="historial-stats">
+                        <div class="stat-box">
+                            <i class="fas fa-check-circle"></i>
+                            <span id="total-entregados">0</span>
+                            <small>Total entregados</small>
+                        </div>
+                        <div class="stat-box">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span id="total-ganado">$0</span>
+                            <small>Ganancias estimadas</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filtros-historial">
+                    <button class="filtro-btn active" onclick="filtrarHistorial('todos')">Todos</button>
+                    <button class="filtro-btn" onclick="filtrarHistorial('hoy')">Hoy</button>
+                    <button class="filtro-btn" onclick="filtrarHistorial('ayer')">Ayer</button>
+                    <button class="filtro-btn" onclick="filtrarHistorial('semana')">Esta semana</button>
+                </div>
+
+                <div id="pedidos-historial" class="pedidos-grid">
+                    <div class="panel-card empty-state" style="text-align: center; padding: 3rem;">
+                        <i class="fas fa-inbox" style="font-size: 3rem; color: var(--gray); margin-bottom: 1rem;"></i>
+                        <h3>No hay pedidos en el historial</h3>
+                        <p>Los pedidos entregados aparecerán aquí</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 SOLUVENCON - Panel Domiciliario</p>
+            </div>
+        </div>
+    </footer>
+
+        <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/notificaciones.js"></script>
+    <script src="assets/js/push-manager.js"></script>
+    <script src="assets/js/auth-guard.js"></script>
+    <script src="assets/js/domiciliario.js"></script>
+
+    <script>
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(reg => console.log('✅ SW registrado'))
+                .catch(err => console.error('❌ SW error:', err));
+        }
+
+        // Iniciar
+        if (typeof protegerRuta === 'function' && protegerRuta('domiciliario')) {
+            cargarDomiciliarioData();
+            verificarEstadoPermisos();
+        }
+    </script>
+</body>
+</html>

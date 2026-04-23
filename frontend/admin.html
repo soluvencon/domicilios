@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#007bff">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - DOMICILIOS SANTUARIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <!-- ============================================
+         BANNER DE NOTIFICACIONES
+         ============================================ -->
+    <div id="permisos-banner" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #fff; border: 2px solid #E63946; border-radius: 12px; padding: 16px 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 9999; display: flex; align-items: center; gap: 12px; font-family: inherit;">
+        <i class="fas fa-bell-slash" style="color: #E63946; font-size: 1.5rem;"></i>
+        <div>
+            <strong>Activa las notificaciones</strong>
+            <div style="font-size: 0.85rem; color: #666;">Para recibir alertas aunque cierres la página</div>
+        </div>
+        <button onclick="activarPermisos()" style="background: #E63946; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+            <i class="fas fa-bell"></i> Activar
+        </button>
+    </div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo"><i class="fas fa-utensils"></i> DOMI<span>CILIOS</span></a>
+                <ul class="nav-links">
+                    <li><span id="user-display" style="color: var(--secondary); font-weight: 500;"></span></li>
+                    <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-cog"></i> Panel de Administración</h2>
+            
+            <!-- TIENDAS -->
+            <div class="admin-card" style="margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                    <h3><i class="fas fa-store"></i> Tiendas</h3>
+                    <button class="btn btn-success btn-sm" onclick="mostrarModalTienda()">
+                        <i class="fas fa-plus"></i> Nueva Tienda
+                    </button>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table id="tablaTiendas">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                                <th>Dirección</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="5" class="text-center">Cargando tiendas...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- PRODUCTOS POR TIENDA -->
+            <div class="admin-card" style="margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                    <h3><i class="fas fa-box"></i> Productos por Tienda</h3>
+                    <button class="btn btn-primary btn-sm" onclick="mostrarModalProducto()">
+                        <i class="fas fa-plus"></i> Agregar Producto
+                    </button>
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label><i class="fas fa-store"></i> Seleccionar tienda para ver sus productos:</label>
+                    <select id="selectTiendaProductos" onchange="cargarProductosPorTienda(this.value)">
+                        <option value="">-- Selecciona una tienda --</option>
+                    </select>
+                </div>
+                
+                <div id="listaProductosTienda" style="display: none;">
+                    <h4 style="margin-bottom: 1rem; color: var(--dark);">
+                        <i class="fas fa-utensils"></i> Productos de: <span id="nombreTiendaSeleccionada"></span>
+                    </h4>
+                    <div style="overflow-x: auto;">
+                        <table id="tablaProductosTienda">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Precio</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- TODOS LOS PEDIDOS -->
+            <div class="admin-card">
+                <h3><i class="fas fa-clipboard-list"></i> Todos los Pedidos</h3>
+                <div style="overflow-x: auto;">
+                    <table id="tablaPedidos">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Tienda</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                                <th>Domiciliario</th>
+                                <th>Fecha</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="8" class="text-center">Cargando pedidos...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </main>
+
+    <!-- ========== SECCIÓN HISTORIAL DE PEDIDOS ENTREGADOS ========== -->
+    <section class="admin-card" id="seccionHistorial">
+        <div class="historial-header">
+            <h3 class="historial-titulo">
+                <i class="fas fa-history"></i>
+                Historial de Pedidos Entregados
+            </h3>
+            <div class="historial-controles">
+                <!-- FILTRO POR TIENDA (NUEVO) -->
+                <div class="filtro-grupo">
+                    <label><i class="fas fa-store"></i></label>
+                    <select id="filtroTiendaHistorial" onchange="aplicarFiltrosHistorial()">
+                        <option value="">Todas las tiendas</option>
+                    </select>
+                </div>
+                <!-- FILTRO POR DOMICILIARIO -->
+                <div class="filtro-grupo">
+                    <label><i class="fas fa-motorcycle"></i></label>
+                    <select id="filtroDomiciliarioHistorial" onchange="aplicarFiltrosHistorial()">
+                        <option value="">Todos los domiciliarios</option>
+                        <option value="sin-asignar">Sin asignar</option>
+                    </select>
+                </div>
+                <!-- BÚSQUEDA -->
+                <div class="filtro-grupo">
+                    <label><i class="fas fa-search"></i></label>
+                    <input type="text" id="buscarHistorial" placeholder="Buscar cliente, teléfono, tienda..." onkeyup="aplicarFiltrosHistorial()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Acciones masivas -->
+        <div class="acciones-masivas" id="accionesMasivas" style="display: none;">
+            <button class="btn-accion-masiva btn-eliminar-masivo" id="btnEliminarSeleccionados" onclick="eliminarPedidosSeleccionados()">
+                <i class="fas fa-trash"></i> Eliminar seleccionados
+            </button>
+            <button class="btn-accion-masiva btn-exportar" onclick="exportarHistorialCSV()">
+                <i class="fas fa-file-csv"></i> Exportar CSV
+            </button>
+            <span class="contador-seleccionados" id="contadorSeleccionados"></span>
+        </div>
+
+        <!-- Tabla de historial -->
+        <div class="tabla-historial-container">
+            <table id="tablaHistorialPedidos">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="checkboxTodos" onchange="toggleSeleccionarTodos(this)"></th>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Total</th>
+                        <th>Tienda</th>
+                        <th>Domiciliario</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="9" class="text-center">Cargando historial...</td></tr>
+                </tbody>
+            </table>
+            <div class="contador-resultados" id="contadorHistorial">0 pedidos</div>
+        </div>
+    </section>
+
+    <!-- Modal Nueva/Editar Tienda -->
+    <div id="modalTienda" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTiendaTitulo"><i class="fas fa-store"></i> Nueva Tienda</h3>
+                <button class="close-modal" onclick="cerrarModalTienda()"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="formTienda" onsubmit="event.preventDefault(); guardarTienda();">
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> Nombre *</label>
+                    <input type="text" id="tiendaNombre" required placeholder="Ej: Hamburguesas El Corral">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-align-left"></i> Descripción</label>
+                    <textarea id="tiendaDescripcion" rows="2" placeholder="Breve descripción de la tienda"></textarea>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-map-marker-alt"></i> Dirección *</label>
+                    <input type="text" id="tiendaDireccion" required placeholder="Ej: Calle 123 #45-67">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-clock"></i> Horario</label>
+                    <input type="text" id="tiendaHorario" value="11am - 10pm">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-star"></i> Rating (1-5)</label>
+                    <input type="number" id="tiendaRating" min="1" max="5" value="5" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-image"></i> URL Imagen</label>
+                    <input type="url" id="tiendaImagen" placeholder="https://ejemplo.com/imagen.jpg">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModalTienda()">Cancelar</button>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Nuevo/Editar Producto -->
+    <div id="modalProducto" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalProductoTitulo"><i class="fas fa-box"></i> Nuevo Producto</h3>
+                <button class="close-modal" onclick="cerrarModalProducto()"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="formProducto" onsubmit="event.preventDefault(); guardarProducto();">
+                <div class="form-group">
+                    <label><i class="fas fa-store"></i> Tienda *</label>
+                    <select id="productoTiendaId" required>
+                        <option value="">-- Selecciona una tienda --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> Nombre del producto *</label>
+                    <input type="text" id="productoNombre" required placeholder="Ej: Hamburguesa Sencilla">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-align-left"></i> Descripción</label>
+                    <textarea id="productoDescripcion" rows="2" placeholder="Ingredientes, detalles..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-dollar-sign"></i> Precio *</label>
+                    <input type="number" id="productoPrecio" required min="0" placeholder="10000">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-image"></i> URL Imagen</label>
+                    <input type="url" id="productoImagen" placeholder="https://raw.githubusercontent.com/soluvencon/imagenes-domicilios/...">
+                    <small style="color: var(--gray); font-size: 0.8rem;">Pega aquí la URL de la imagen (GitHub, Drive, etc.)</small>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-award"></i> Badge (etiqueta especial)</label>
+                    <input type="text" id="productoBadge" placeholder="Ej: Más pedida, Oferta, etc.">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModalProducto()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar Producto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Detalle Pedido -->
+    <div id="modalPedido" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-clipboard-list"></i> Detalle del Pedido</h3>
+                <button class="close-modal" onclick="cerrarModalPedido()"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="detallePedidoContenido">
+                <!-- Contenido dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Indicador de sistema en vivo -->
+    <div class="indicador-en-vivo" id="indicador-vivo">
+        <i class="fas fa-wifi"></i> Sistema en vivo
+    </div>
+
+    <!-- Modal Asignar Domiciliario -->
+    <div id="modalAsignarDomiciliario" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> Asignar Domiciliario</h3>
+                <button class="close-modal" onclick="cerrarModalAsignarDomiciliario()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 1rem; color: #666;">
+                    Pedido #<strong id="asignarPedidoId" style="color: #0a2a36;"></strong>
+                </p>
+                
+                <!-- Buscador -->
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label><i class="fas fa-search"></i> Buscar domiciliario:</label>
+                    <input type="text" id="buscarDomiciliario" placeholder="Escribe nombre o ID..." 
+                           onkeyup="filtrarDomiciliarios()" 
+                           style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                </div>
+                
+                <!-- Lista de domiciliarios -->
+                <div id="listaDomiciliarios" style="max-height: 300px; overflow-y: auto;">
+                    <!-- Se llena dinámicamente -->
+                </div>
+                
+                <div id="sinResultados" style="display: none; text-align: center; padding: 2rem; color: #999;">
+                    <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                    <p>No se encontraron domiciliarios</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 DOMICILIOS - Panel de Administración</p>
+            </div>
+        </div>
+    </footer>
+
+        <!-- ============================================
+         SCRIPTS — Orden correcto, sin duplicados
+         ============================================ -->
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/notificaciones.js"></script>
+    <script src="assets/js/push-manager.js"></script>
+    <script src="assets/js/auth-guard.js"></script>
+    <script src="assets/js/admin.js"></script>
+
+    <!-- Inicialización mínima — todo está en los .js -->
+    <script>
+        // Registrar Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(reg => console.log('✅ SW registrado'))
+                .catch(err => console.error('❌ SW error:', err));
+        }
+
+        // Iniciar
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof protegerRuta === 'function' && protegerRuta('admin')) {
+                if (typeof cargarAdminData === 'function') cargarAdminData();
+
+                // Ocultar banner si ya tiene permisos
+                if (Notification.permission === 'granted') {
+                    const b = document.getElementById('permisos-banner');
+                    if (b) b.style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
