@@ -44,14 +44,18 @@ app.use('/api', proxyRouter);
 initProxy(socketEmitter);
 
 // ============================================
-// Frontend estático — Solo en desarrollo
+// Frontend estático — Desarrollo y producción
 // DEBE IR DESPUÉS de todas las rutas /api
 // ============================================
-if (isDev) {
-    const frontendPath = path.join(__dirname, '../frontend');
-    console.log(`📂 Sirviendo frontend desde: ${frontendPath}`);
-    app.use(express.static(frontendPath));
-}
+// Servir frontend estático SIEMPRE (desarrollo y producción)
+const frontendPath = path.join(__dirname, '../frontend');
+console.log(`📂 Sirviendo frontend desde: ${frontendPath}`);
+app.use(express.static(frontendPath));
+
+// Fallback para SPA: si no encuentra archivo, sirve index.html
+app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendPath, 'index.html'));
+});
 
 // ============================================
 // Iniciar
