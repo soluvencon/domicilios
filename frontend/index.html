@@ -2,17 +2,42 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOMICILIOS SANTUARIO- Domicilios</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- PWA Meta tags -->
+    <meta name="theme-color" content="#E63946">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Domicilios">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Domicilios">
+    <link rel="apple-touch-icon" href="assets/img/icon-152x152.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/icon-96x96.png">
+
+    <title>DOMIDELIS - Domicilios</title>
+    
+    <!-- Fuentes e Iconos -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <!-- NUEVOS ESTILOS MODULARES -->
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/store.css">
+
+    <!-- Estilos estrictos del juego offline (no se mezclan con la app) -->
+    <style>
+        @keyframes pulse { 0%, 100% { transform:translateX(-50%) scale(1); } 50% { transform:translateX(-50%) scale(1.05); } }
+        #offline-game canvas { image-rendering: pixelated; }
+        #btn-restart:hover, #btn-start-game:hover { transform: scale(1.08); }
+        #btn-start-game, #btn-restart { transition: transform 0.2s; }
+    </style>
 </head>
 <body>
     <header>
         <div class="container">
             <nav>
-                <a href="index.html" class="logo"><i class="fas fa-utensils"></i> DOMI<span>CILIOS</span></a>
+                <a href="index.html" class="logo"><i class="fas fa-utensils"></i> DOMI<span>DELIS</span></a>
                 <div class="mobile-menu" id="mobile-menu"><i class="fas fa-bars"></i></div>
                 <ul class="nav-links" id="nav-links">
                     <li><a href="login.html"><i class="fas fa-user"></i> Iniciar sesión</a></li>
@@ -31,9 +56,12 @@
                     <select id="zone-select">
                         <option value="centro">📍 Parque principal - Envío $3,000</option>
                         <option value="norte">📍 la judea - Envío $3,500</option>
-                        <option value="sur">📍 la chapa- Envío $4,000</option>
+                        <option value="sur">📍 la chapa - Envío $4,000</option>
                         <option value="oriente">📍 vargas - Envío $7,000</option>
                         <option value="occidente">📍 sale marinilla - Envío $3,500</option>
+                        <option value="sanjose">📍 no definido - Envío $3,000</option>
+                        <option value="bosque">📍 no definido - Envío $4,000</option>
+                        <option value="prado">📍 no definido - Envío $3,500</option>
                     </select>
                 </div>
             </div>
@@ -48,6 +76,40 @@
             </div>
         </div>
     </main>
+
+    <!-- ===== BANNER INSTALAR APP (Android con beforeinstallprompt) ===== -->
+    <div class="install-banner" id="install-banner">
+        <div class="install-banner-icon">
+            <img src="assets/img/icon-192x192.png" alt="Domicilios">
+        </div>
+        <div class="install-banner-text">
+            <strong>Instalar DOMIDELIS</strong>
+            <span>Acceso rápido desde tu pantalla de inicio</span>
+        </div>
+        <button class="install-banner-btn" id="btn-install-app" type="button">
+            <i class="fas fa-download"></i> Instalar
+        </button>
+        <button class="install-banner-close" id="btn-install-close" type="button" aria-label="Cerrar">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- ===== BANNER INSTRUCCIONES MANUALES (Android sin evento o iOS) ===== -->
+    <div class="install-manual-banner" id="install-manual-banner">
+        <button class="install-manual-close" id="btn-manual-close" type="button" aria-label="Cerrar">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="install-manual-header">
+            <img src="assets/img/icon-192x192.png" alt="Domicilios">
+            <div class="install-manual-header-text">
+                <strong>Instalar DOMIDELIS</strong>
+                <span>Sigue estos pasos rápidos</span>
+            </div>
+        </div>
+        <div class="install-manual-steps" id="install-steps-container">
+            <!-- Se llena dinámicamente según el navegador -->
+        </div>
+    </div>
 
     <!-- Carrito flotante -->
     <div class="cart-float" id="cart-float">
@@ -77,22 +139,23 @@
             </button>
         </div>
     </div>
-
-    <!-- WhatsApp flotante -->
+    
+    <!-- WhatsApp flotante (Comentado como lo tenías) -->
+    <!--
     <a href="https://wa.me/573005005306" class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
-
+    -->   
+                  
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>SOLUVENCON</h3>
+                    <h3>DOMIDELIS</h3>
                     <p>Tu app de domicilios favorita. Rápido, fácil y seguro.</p>
                 </div>
                 <div class="footer-section">
                     <h3>Enlaces</h3>
-                    <p><a href="index.html">Inicio</a></p>
                     <p><a href="login.html">Iniciar sesión</a></p>
                 </div>
                 <div class="footer-section">
@@ -104,23 +167,324 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 SOLUVENCON - Todos los derechos reservados</p>
+                <p>&copy; 2025 DOMIDELIS - Todos los derechos reservados</p>
             </div>
         </div>
     </footer>
-       <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+
+    <!-- Scripts Principales -->
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
     <script src="assets/js/config.js"></script>
     <script src="assets/js/client.js"></script>
+
+    <!-- Service Worker -->
     <script>
-        // Inicializar selector de zonas
-        document.getElementById('zone-select').addEventListener('change', (e) => {
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(function(reg) {
+                        console.log('✅ SW registrado:', reg.scope);
+                    })
+                    .catch(function(err) {
+                        console.warn('⚠️ SW no registrado:', err.message);
+                    });
+            });
+        }
+    </script>
+
+    <!-- Lógica Instalar App -->
+    <script>
+    (function() {
+        var deferredPrompt = null;
+        var yaSeMostró = false;
+
+        var bannerAuto = document.getElementById('install-banner');
+        var bannerManual = document.getElementById('install-manual-banner');
+        var btnInstall = document.getElementById('btn-install-app');
+        var btnCloseAuto = document.getElementById('btn-install-close');
+        var btnCloseManual = document.getElementById('btn-manual-close');
+        var stepsContainer = document.getElementById('install-steps-container');
+
+        // 1. Si ya está instalada → NO MOSTRAR NADA
+        var esStandalone = window.matchMedia('(display-mode: standalone)').matches;
+        var esIOSPWA = window.navigator.standalone === true;
+
+        if (esStandalone || esIOSPWA) return;
+
+        // 2. Si cerró el banner recientemente → NO MOSTRAR
+        if (cerradoRecientemente()) return;
+
+        // 3. Detectar Sistema Operativo
+        var esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        var esAndroid = /Android/.test(navigator.userAgent);
+        var esSamsung = /SamsungBrowser/.test(navigator.userAgent);
+        var esFirefox = /Firefox/.test(navigator.userAgent);
+
+        // 4. Si es iOS → Mostrar instrucciones manuales
+        if (esIOS) {
+            stepsContainer.innerHTML =
+                '<div class="install-manual-step"><div class="step-num">1</div><div class="step-text">Toca el botón <i class="fas fa-share-from-square"></i> <strong>Compartir</strong> aquí abajo</div></div>' +
+                '<div class="install-manual-step"><div class="step-num">2</div><div class="step-text">Desplázate y busca <strong>"Agregar a pantalla de inicio"</strong></div></div>' +
+                '<div class="install-manual-step"><div class="step-num">3</div><div class="step-text">Toca <strong>"Agregar"</strong> y listo</div></div>';
+            setTimeout(function() { bannerManual.classList.add('mostrar'); }, 3000);
+            configurarCierreManual();
+            return;
+        }
+
+        // 5. Si es Android/Otro → Esperar beforeinstallprompt
+        window.addEventListener('beforeinstallprompt', function(e) {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (!yaSeMostró) {
+                yaSeMostró = true;
+                setTimeout(function() { mostrarBannerAuto(); }, 2500);
+            }
+        });
+
+        // 6. Fallback si no llega el evento
+        setTimeout(function() {
+            if (!deferredPrompt && !yaSeMostró) {
+                yaSeMostró = true;
+                if (esSamsung) {
+                    stepsContainer.innerHTML = '<div class="install-manual-step"><div class="step-num">1</div><div class="step-text">Toca el menú <i class="fas fa-bars"></i> (3 líneas) abajo a la derecha</div></div><div class="install-manual-step"><div class="step-num">2</div><div class="step-text">Busca <strong>"Agregar página a pantalla de inicio"</strong></div></div><div class="install-manual-step"><div class="step-num">3</div><div class="step-text">Toca <strong>"Agregar"</strong></div></div>';
+                } else if (esFirefox) {
+                    stepsContainer.innerHTML = '<div class="install-manual-step"><div class="step-num">1</div><div class="step-text">Toca el menú <i class="fas fa-ellipsis-v"></i> (tres puntos) del navegador</div></div><div class="install-manual-step"><div class="step-num">2</div><div class="step-text">Busca <strong>"Instalar"</strong> o <strong>"Agregar a pantalla de inicio"</strong></div></div><div class="install-manual-step"><div class="step-num">3</div><div class="step-text">Confirma tocando <strong>"Instalar"</strong></div></div>';
+                } else {
+                    stepsContainer.innerHTML = '<div class="install-manual-step"><div class="step-num">1</div><div class="step-text">Toca el menú <i class="fas fa-ellipsis-v"></i> (tres puntos) arriba a la derecha</div></div><div class="install-manual-step"><div class="step-num">2</div><div class="step-text">Busca y toca <strong>"Instalar aplicación"</strong> o <strong>"Agregar a pantalla de inicio"</strong></div></div><div class="install-manual-step"><div class="step-num">3</div><div class="step-text">Confirma tocando <strong>"Instalar"</strong></div></div>';
+                }
+                bannerManual.classList.add('mostrar');
+                configurarCierreManual();
+            }
+        }, 6000);
+
+        // 7. Botón Instalar Nativo
+        btnInstall.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            if (!deferredPrompt) { ocultarBannerAuto(); bannerManual.classList.add('mostrar'); configurarCierreManual(); return; }
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(function(choiceResult) {
+                if (choiceResult.outcome === 'accepted') ocultarBannerAuto();
+                deferredPrompt = null;
+            }).catch(function() { deferredPrompt = null; });
+        });
+
+        // 8. Botón X Cerrar Banner Auto
+        btnCloseAuto.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); ocultarBannerAuto(); guardarCierre(); });
+
+        // 9. Cuando se instala por cualquier medio
+        window.addEventListener('appinstalled', function() { ocultarBannerAuto(); ocultarBannerManual(); deferredPrompt = null; });
+
+        // Funciones Auxiliares
+        function mostrarBannerAuto() { var cartPanel = document.getElementById('cart-panel'); if (cartPanel && cartPanel.classList.contains('active')) { setTimeout(mostrarBannerAuto, 2000); return; } bannerAuto.classList.add('mostrar'); }
+        function ocultarBannerAuto() { bannerAuto.classList.remove('mostrar'); }
+        function ocultarBannerManual() { bannerManual.classList.remove('mostrar'); }
+        function configurarCierreManual() { btnCloseManual.replaceWith(btnCloseManual.cloneNode(true)); var nuevoBtn = document.getElementById('btn-manual-close'); nuevoBtn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); ocultarBannerManual(); guardarCierre(); }); }
+        function guardarCierre() { try { localStorage.setItem('install_banner_cerrado', Date.now().toString()); } catch(e) {} }
+        function cerradoRecientemente() { try { var timestamp = localStorage.getItem('install_banner_cerrado'); if (!timestamp) return false; var sieteDias = 7 * 24 * 60 * 60 * 1000; return (Date.now() - parseInt(timestamp, 10)) < sieteDias; } catch(e) { return false; } }
+    })();
+    </script>
+
+    <!-- Inicialización Carrito -->
+    <script>
+        document.getElementById('zone-select').addEventListener('change', function(e) {
             APP_CONFIG.zonaActual = e.target.value;
             actualizarCarritoUI();
         });
-        
-        // Cargar carrito al iniciar
         carrito = obtenerCarrito();
         actualizarCarritoUI();
+    </script>
+
+    <!-- ============================================ -->
+    <!-- JUEGO OFFLINE - MOTO RUNNER                  -->
+    <!-- ============================================ -->
+    <div id="offline-game" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#1a1a2e; z-index:9999;">
+        <canvas id="gameCanvas" style="display:block; margin:0 auto;"></canvas>
+        
+        <div id="game-ui" style="position:absolute; top:20px; left:50%; transform:translateX(-50%); text-align:center; color:#fff; font-family:'Poppins',sans-serif;">
+            <div style="font-size:2rem; font-weight:800; text-shadow:0 0 10px #e63946;">🏍️ MOTO RUNNER</div>
+            <div style="font-size:0.9rem; color:#aaa; margin-top:5px;">Sin conexión — Toca para saltar</div>
+            <div style="margin-top:10px; font-size:1.5rem; font-weight:700;">Puntos: <span id="score">0</span></div>
+            <div style="margin-top:5px; font-size:0.8rem; color:#e63946;">Record: <span id="highscore">0</span></div>
+        </div>
+
+        <div id="game-over" style="display:none; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; color:#fff; font-family:'Poppins',sans-serif;">
+            <div style="font-size:3rem; font-weight:800; color:#e63946; text-shadow:0 0 20px #e63946;">💥 CHOQUE!</div>
+            <div style="font-size:1.2rem; margin:1rem 0;">Puntos: <span id="final-score">0</span></div>
+            <button id="btn-restart" style="background:#e63946; color:#fff; border:none; padding:15px 40px; font-size:1.1rem; font-weight:700; border-radius:50px; cursor:pointer; font-family:'Poppins',sans-serif; box-shadow:0 5px 20px rgba(230,57,70,0.4);">
+                <i class="fas fa-redo"></i> Intentar de nuevo
+            </button>
+            <div style="margin-top:15px; font-size:0.8rem; color:#888;">
+                <i class="fas fa-wifi"></i> Esperando conexión...
+            </div>
+        </div>
+
+        <div id="game-start" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; color:#fff; font-family:'Poppins',sans-serif;">
+            <div style="font-size:4rem; margin-bottom:1rem;">🏍️</div>
+            <div style="font-size:2.5rem; font-weight:800; color:#e63946; text-shadow:0 0 20px #e63946;">MOTO RUNNER</div>
+            <div style="font-size:1rem; color:#aaa; margin:0.8rem 0 2rem;">Esquiva obstáculos mientras vuelve la red</div>
+            <button id="btn-start-game" style="background:linear-gradient(135deg,#E63946,#F4A261); color:#fff; border:none; padding:18px 50px; font-size:1.2rem; font-weight:700; border-radius:50px; cursor:pointer; font-family:'Poppins',sans-serif; box-shadow:0 8px 30px rgba(230,57,70,0.5);">
+                <i class="fas fa-play"></i> JUGAR
+            </button>
+            <div style="margin-top:2rem; font-size:0.85rem; color:#666;">
+                <div style="margin-bottom:0.3rem;"> 👆 Toca para saltar</div>
+            </div>
+        </div>
+
+        <button id="btn-close-game" style="display:none; position:absolute; bottom:30px; left:50%; transform:translateX(-50%); background:#2ecc71; color:#fff; border:none; padding:12px 30px; font-size:1rem; font-weight:600; border-radius:50px; cursor:pointer; font-family:'Poppins',sans-serif; animation:pulse 2s infinite;">
+            <i class="fas fa-wifi"></i> ¡Conexión restaurada! Volver al panel
+        </button>
+    </div>
+
+    <script>
+    // ============================================
+    // JUEGO MOTO RUNNER - Offline
+    // ============================================
+    var canvas = document.getElementById('gameCanvas');
+    var ctx = canvas.getContext('2d');
+    var gameState = 'idle';
+    var score = 0;
+    var highscore = 0;
+    var speed = 5;
+    var frame = 0;
+
+    try { highscore = parseInt(localStorage.getItem('motoHighscore')) || 0; } catch(e) {}
+
+    var moto = { x: 80, y: 0, width: 50, height: 30, vy: 0, jumping: false, grounded: false, color: '#e63946' };
+    var groundY = 0;
+    var obstacles = [];
+    var obstacleTimer = 0;
+    var particles = [];
+    var bgBuildings = [];
+    var stars = [];
+
+    function initBackground() {
+        bgBuildings = []; stars = [];
+        for (var i = 0; i < 20; i++) { bgBuildings.push({ x: i * 100 + Math.random() * 50, width: 40 + Math.random() * 60, height: 50 + Math.random() * 150, color: 'rgba(255,255,255,' + (0.03 + Math.random() * 0.05) + ')' }); }
+        for (var i = 0; i < 100; i++) { stars.push({ x: Math.random() * canvas.width, y: Math.random() * (canvas.height / 2), size: Math.random() * 2, speed: 0.2 + Math.random() * 0.5 }); }
+    }
+
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; groundY = canvas.height - 100; }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    initBackground();
+
+    function jump() {
+        if (gameState !== 'playing') return;
+        if (moto.grounded) { moto.vy = -12; moto.jumping = true; moto.grounded = false; createParticles(moto.x + 10, moto.y + moto.height, 5); }
+    }
+
+    canvas.addEventListener('mousedown', jump);
+    canvas.addEventListener('touchstart', function(e) { e.preventDefault(); jump(); });
+    document.addEventListener('keydown', function(e) { if (e.code === 'Space' || e.code === 'ArrowUp') { e.preventDefault(); jump(); } });
+
+    document.getElementById('btn-start-game').addEventListener('click', startGame);
+    document.getElementById('btn-restart').addEventListener('click', startGame);
+    document.getElementById('btn-close-game').addEventListener('click', closeGame);
+
+    function createParticles(x, y, count) { for (var i = 0; i < count; i++) { particles.push({ x: x, y: y, vx: -2 - Math.random() * 3, vy: -1 + Math.random() * 3, life: 1, size: 2 + Math.random() * 3 }); } }
+
+    function spawnObstacle() {
+        var types = ['caja', 'cono', 'bache'];
+        var type = types[Math.floor(Math.random() * types.length)];
+        var obs = { x: canvas.width, y: groundY, width: 30, height: 30, type: type, passed: false };
+        if (type === 'caja') { obs.width = 35; obs.height = 35; obs.y = groundY - 35; }
+        else if (type === 'cono') { obs.width = 20; obs.height = 30; obs.y = groundY - 30; }
+        else { obs.width = 50; obs.height = 10; obs.y = groundY - 5; }
+        obstacles.push(obs);
+    }
+
+    function drawMoto() {
+        ctx.save();
+        ctx.fillStyle = 'rgba(0,0,0,0.3)'; ctx.beginPath(); ctx.ellipse(moto.x + 25, groundY + 5, 25, 5, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#333'; ctx.beginPath(); ctx.arc(moto.x + 10, moto.y + 25, 10, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = '#666'; ctx.lineWidth = 2; ctx.stroke();
+        ctx.beginPath(); ctx.arc(moto.x + 40, moto.y + 25, 10, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = moto.color; ctx.beginPath(); ctx.moveTo(moto.x + 5, moto.y + 20); ctx.lineTo(moto.x + 20, moto.y + 5); ctx.lineTo(moto.x + 35, moto.y + 5); ctx.lineTo(moto.x + 45, moto.y + 15); ctx.lineTo(moto.x + 45, moto.y + 20); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = '#222'; ctx.fillRect(moto.x + 15, moto.y + 8, 15, 5);
+        ctx.strokeStyle = '#ccc'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(moto.x + 35, moto.y + 5); ctx.lineTo(moto.x + 38, moto.y - 5); ctx.stroke();
+        ctx.fillStyle = '#ffeb3b'; ctx.beginPath(); ctx.arc(moto.x + 42, moto.y + 12, 4, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = 'rgba(255,235,59,0.3)'; ctx.beginPath(); ctx.arc(moto.x + 42, moto.y + 12, 12, 0, Math.PI * 2); ctx.fill();
+        if (moto.grounded) { ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(moto.x + 22, moto.y - 2, 8, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#333'; ctx.fillRect(moto.x + 20, moto.y - 5, 12, 4); }
+        ctx.restore();
+    }
+
+    function drawObstacle(obs) {
+        ctx.save();
+        if (obs.type === 'caja') { ctx.fillStyle = '#d4a373'; ctx.fillRect(obs.x, obs.y, obs.width, obs.height); ctx.strokeStyle = '#8b6914'; ctx.lineWidth = 2; ctx.strokeRect(obs.x, obs.y, obs.width, obs.height); ctx.beginPath(); ctx.moveTo(obs.x + obs.width/2, obs.y + 5); ctx.lineTo(obs.x + obs.width/2, obs.y + obs.height - 5); ctx.moveTo(obs.x + 5, obs.y + obs.height/2); ctx.lineTo(obs.x + obs.width - 5, obs.y + obs.height/2); ctx.stroke(); }
+        else if (obs.type === 'cono') { ctx.fillStyle = '#ff6b35'; ctx.beginPath(); ctx.moveTo(obs.x + obs.width/2, obs.y); ctx.lineTo(obs.x + obs.width, obs.y + obs.height); ctx.lineTo(obs.x, obs.y + obs.height); ctx.closePath(); ctx.fill(); ctx.fillStyle = '#fff'; ctx.fillRect(obs.x + 5, obs.y + obs.height - 10, obs.width - 10, 4); }
+        else { ctx.fillStyle = '#0f0f23'; ctx.beginPath(); ctx.ellipse(obs.x + obs.width/2, obs.y + 5, obs.width/2, 5, 0, 0, Math.PI * 2); ctx.fill(); }
+        ctx.restore();
+    }
+
+    function update() {
+        frame++; groundY = canvas.height - 100;
+        moto.vy += 0.6; moto.y += moto.vy;
+        if (moto.y + moto.height >= groundY) { moto.y = groundY - moto.height; moto.vy = 0; moto.grounded = true; moto.jumping = false; }
+        if (moto.grounded && frame % 5 === 0) createParticles(moto.x, moto.y + moto.height, 1);
+        
+        for (var i = particles.length - 1; i >= 0; i--) { particles[i].x += particles[i].vx; particles[i].y += particles[i].vy; particles[i].life -= 0.02; if (particles[i].life <= 0) particles.splice(i, 1); }
+        
+        obstacleTimer++;
+        if (obstacleTimer > 90 - Math.min(score/10, 40)) { spawnObstacle(); obstacleTimer = 0; }
+        
+        for (var i = obstacles.length - 1; i >= 0; i--) {
+            obstacles[i].x -= speed + (score/50);
+            var obs = obstacles[i];
+            if (!obs.passed && moto.x < obs.x + obs.width && moto.x + moto.width > obs.x && moto.y < obs.y + obs.height && moto.y + moto.height > obs.y + 5) { triggerGameOver(); return; }
+            if (!obs.passed && obs.x + obs.width < moto.x) { obs.passed = true; score++; document.getElementById('score').textContent = score; }
+            if (obs.x + obs.width < 0) obstacles.splice(i, 1);
+        }
+        speed = 5 + (score / 20);
+        for (var i = 0; i < bgBuildings.length; i++) { bgBuildings[i].x -= 0.5; if (bgBuildings[i].x + bgBuildings[i].width < 0) bgBuildings[i].x = canvas.width + Math.random() * 100; }
+        for (var i = 0; i < stars.length; i++) { stars[i].x -= stars[i].speed; if (stars[i].x < 0) stars[i].x = canvas.width; }
+    }
+
+    function draw() {
+        ctx.fillStyle = '#1a1a2e'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#fff'; for (var i = 0; i < stars.length; i++) { ctx.beginPath(); ctx.arc(stars[i].x, stars[i].y, stars[i].size, 0, Math.PI * 2); ctx.fill(); }
+        ctx.fillStyle = '#f1c40f'; ctx.beginPath(); ctx.arc(canvas.width - 80, 60, 30, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#1a1a2e'; ctx.beginPath(); ctx.arc(canvas.width - 70, 55, 25, 0, Math.PI * 2); ctx.fill();
+        for (var i = 0; i < bgBuildings.length; i++) { ctx.fillStyle = bgBuildings[i].color; ctx.fillRect(bgBuildings[i].x, groundY - bgBuildings[i].height, bgBuildings[i].width, bgBuildings[i].height); }
+        ctx.fillStyle = '#2c3e50'; ctx.fillRect(0, groundY, canvas.width, canvas.height - groundY);
+        ctx.strokeStyle = '#f1c40f'; ctx.lineWidth = 2; ctx.setLineDash([20, 20]); ctx.beginPath(); ctx.moveTo(0, groundY + 30); ctx.lineTo(canvas.width, groundY + 30); ctx.stroke(); ctx.setLineDash([]);
+        ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(0, groundY + 5); ctx.lineTo(canvas.width, groundY + 5); ctx.stroke();
+        for (var i = 0; i < particles.length; i++) { var p = particles[i]; ctx.fillStyle = 'rgba(200,200,200,' + p.life + ')'; ctx.beginPath(); ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2); ctx.fill(); }
+        for (var i = 0; i < obstacles.length; i++) drawObstacle(obstacles[i]);
+        drawMoto();
+    }
+
+    function gameLoop() { if (gameState !== 'playing') return; update(); draw(); requestAnimationFrame(gameLoop); }
+
+    function startGame() {
+        gameState = 'playing'; score = 0; speed = 5; obstacles = []; particles = []; obstacleTimer = 0; frame = 0;
+        moto.y = groundY - moto.height; moto.vy = 0; moto.grounded = true; moto.jumping = false;
+        document.getElementById('score').textContent = '0'; document.getElementById('highscore').textContent = highscore;
+        document.getElementById('game-start').style.display = 'none'; document.getElementById('game-over').style.display = 'none';
+        gameLoop();
+    }
+
+    function triggerGameOver() {
+        gameState = 'dead';
+        if (score > highscore) { highscore = score; try { localStorage.setItem('motoHighscore', highscore); } catch(e) {} }
+        document.getElementById('final-score').textContent = score; document.getElementById('game-over').style.display = 'block';
+        createParticles(moto.x + 25, moto.y + 15, 20); draw();
+    }
+
+    function closeGame() { gameState = 'idle'; document.getElementById('offline-game').style.display = 'none'; obstacles = []; particles = []; }
+
+    function checkConnection() {
+        var gameDiv = document.getElementById('offline-game'); var closeBtn = document.getElementById('btn-close-game');
+        if (!navigator.onLine) {
+            gameDiv.style.display = 'block';
+            if (gameState === 'idle') { document.getElementById('game-start').style.display = 'block'; document.getElementById('game-over').style.display = 'none'; closeBtn.style.display = 'none'; draw(); }
+            else if (gameState === 'playing' || gameState === 'dead') { closeBtn.style.display = 'none'; }
+        } else {
+            if (gameState === 'playing') { closeBtn.style.display = 'block'; } else { gameState = 'idle'; gameDiv.style.display = 'none'; }
+        }
+    }
+
+    window.addEventListener('online', function() { var closeBtn = document.getElementById('btn-close-game'); if (gameState === 'playing') { closeBtn.style.display = 'block'; } else { gameState = 'idle'; document.getElementById('offline-game').style.display = 'none'; } });
+    window.addEventListener('offline', function() { checkConnection(); });
+    window.addEventListener('load', function() { resizeCanvas(); initBackground(); checkConnection(); });
     </script>
 </body>
 </html>

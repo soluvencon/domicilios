@@ -36,7 +36,11 @@ const APP_CONFIG = {
         norte:     { nombre: 'La judea',        envio: 3500 },
         sur:       { nombre: 'La chapa',        envio: 4000 },
         oriente:   { nombre: 'Vargas',          envio: 7000 },
-        occidente: { nombre: 'Sale marinilla',   envio: 3500 }
+        occidente: { nombre: 'Sale marinilla',   envio: 3500 },
+        // ★ NUEVAS ZONAS — Agrégalas aquí
+        sanjose:   { nombre: 'La judea',           envio: 3500 },
+        bosque:    { nombre: 'no definido',          envio: 4000 },
+        prado:     { nombre: 'no definido',            envio: 3500 }
     }
 };
 

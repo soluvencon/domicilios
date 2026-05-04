@@ -146,7 +146,7 @@ nav {
     content: '🍔';
     position: absolute;
     font-size: 15rem;
-    opacity: 0.08;
+    opacity: 0.10;
     bottom: -50px;
     right: -50px;
 }
@@ -507,22 +507,23 @@ nav {
    ============================================ */
 .cart-float {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
+    bottom: 35px;
+    right: 35px;
+    width: 72px;
+    height: 72px;
     background: var(--primary);
     color: white;
     border-radius: 50%;
     display: none;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     cursor: pointer;
     z-index: 998;
-    border: 3px solid white;
-    box-shadow: 0 4px 20px rgba(230,57,70,0.5);
+    border: 4px solid white;
+    box-shadow: 0 6px 25px rgba(230,57,70,0.6);
     transition: var(--transition);
+    -webkit-tap-highlight-color: transparent;
 }
 
 .cart-float.visible {
@@ -531,25 +532,27 @@ nav {
 }
 
 .cart-float:hover {
-    transform: scale(1.1);
+    transform: scale(1.12);
     background: var(--accent);
+    box-shadow: 0 8px 30px rgba(230,57,70,0.7);
 }
 
 .cart-counter {
     position: absolute;
-    top: -8px;
-    right: -8px;
+    top: -10px;
+    right: -10px;
     background: var(--danger);
     color: white;
-    font-size: 0.7rem;
-    font-weight: 700;
-    width: 24px;
-    height: 24px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid white;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(220,53,69,0.5);
 }
 
 /* Panel lateral del carrito */
@@ -948,7 +951,7 @@ footer {
    14. PANELES DE ADMINISTRACIÓN
    ============================================ */
 main {
-    margin-top: 80px;
+    margin-top: 31px;
     padding: 2rem 0;
     flex: 1;
 }
@@ -2008,15 +2011,15 @@ tr:hover {
     
     /* Hero */
     .hero {
-        padding: 4rem 0 3rem;
+        padding: 5rem 0 4rem;
     }
     
     .hero h1 {
-        font-size: 2rem;
+        font-size: 7rem;
     }
     
     .section-title {
-        font-size: 1.5rem;
+        font-size:1.6rem;
     }
     
     /* Grids */
@@ -2030,13 +2033,13 @@ tr:hover {
     }
     
     .cart-float {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
-        bottom: 20px;
-        right: 20px;
+        width: 64px;
+        height: 64px;
+        font-size: 1.6rem;
+        bottom: 25px;
+        right: 25px;
+        border-width: 3px;
     }
-    
     .whatsapp-float {
         width: 45px;
         height: 45px;
@@ -2717,3 +2720,177 @@ header {
         font-size: 0.68rem;
     }
 }
+ç/* ============================================
+   BANNER INSTALAR APP (Android / Chrome)
+   ============================================ */
+.install-banner {
+    position: fixed;
+    bottom: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 32px);
+    max-width: 420px;
+    background: #1a1a2e;
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 -4px 30px rgba(0,0,0,0.4);
+    z-index: 9998;
+    transition: bottom 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.install-banner.mostrar {
+    bottom: 100px;
+}
+
+.install-banner-icon img {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+}
+
+.install-banner-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.install-banner-text strong {
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+.install-banner-text span {
+    color: #888;
+    font-size: 0.78rem;
+}
+
+.install-banner-btn {
+    background: linear-gradient(135deg, #E63946, #F4A261);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
+}
+
+.install-banner-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(230,57,70,0.4);
+}
+
+.install-banner-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px;
+}
+
+.install-banner-close:hover { color: #fff; }
+
+/* ============================================
+   BANNER iOS (iPhone / iPad / Safari)
+   ============================================ */
+.install-ios-banner {
+    position: fixed;
+    bottom: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 32px);
+    max-width: 420px;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border-radius: 20px;
+    padding: 18px;
+    display: none;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 -4px 30px rgba(0,0,0,0.4);
+    z-index: 9998;
+    transition: bottom 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 1px solid rgba(244,162,97,0.3);
+}
+
+.install-ios-banner.mostrar {
+    bottom: 100px;
+}
+
+.install-ios-icon img {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+}
+
+.install-ios-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.install-ios-text strong {
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+.install-ios-text span {
+    color: #F4A261;
+    font-size: 0.82rem;
+    line-height: 1.4;
+}
+
+.install-ios-text i {
+    color: #2A9D8F;
+    margin: 0 2px;
+}
+
+.install-ios-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px;
+}
+
+.install-ios-close:hover { color: #fff; }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 480px) {
+    .install-banner,
+    .install-ios-banner {
+        width: calc(100% - 20px);
+        padding: 14px;
+        gap: 10px;
+    }
+    .install-banner-text strong,
+    .install-ios-text strong { font-size: 0.88rem; }
+    .install-banner-text span,
+    .install-ios-text span { font-size: 0.73rem; }
+    .install-banner-btn { padding: 8px 14px; font-size: 0.8rem; }
+    .install-banner.mostrar,
+    .install-ios-banner.mostrar { bottom: 80px; }
+}
+
+/* Para que las variables CSS funcionen para las configuraciones de usuario domciliarios*/

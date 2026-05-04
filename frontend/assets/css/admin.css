@@ -1,0 +1,128 @@
+/* ============================================
+   ADMIN.CSS - Panel de Administración
+   ============================================ */
+
+/* 1. LAYOUT ADMIN */
+main { margin-top: 31px; padding: 2rem 0; flex: 1; }
+.section-title { font-size: 1.8rem; margin-bottom: 2rem; color: var(--dark); display: flex; align-items: center; gap: 0.5rem; }
+.admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+.admin-card { background: var(--white); border-radius: var(--border-radius); padding: 2rem; box-shadow: var(--shadow); }
+.admin-card h3 { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; color: var(--dark); }
+
+/* 2. TABLAS ADMIN */
+table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #eee; }
+th { background: var(--light); font-weight: 600; color: var(--dark); }
+tr:hover { background: #f9f9f9; }
+.badge { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; display: inline-block; }
+.badge-pendiente { background: var(--warning); color: #000; }
+.badge-en-camino { background: var(--info); color: #fff; }
+.badge-entregado { background: var(--success); color: #fff; }
+.badge-cancelado { background: var(--danger); color: #fff; }
+/* Imágenes miniatura en tablas del Admin */
+.store-img-thumb {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* 3. MODAL ASIGNAR DOMICILIARIO */
+#modalAsignarDomiciliario .modal-content { max-width: 600px; }
+#asignarPedidoId { color: var(--primary); font-weight: 700; }
+#buscarDomiciliario { width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: var(--border-radius-sm); font-family: inherit; font-size: 1rem; transition: var(--transition); margin-bottom: 1rem; }
+#buscarDomiciliario:focus { outline: none; border-color: var(--primary); }
+#listaDomiciliarios { max-height: 350px; overflow-y: auto; padding-right: 8px; }
+#listaDomiciliarios::-webkit-scrollbar { width: 6px; }
+#listaDomiciliarios::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px; }
+#listaDomiciliarios::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+.domiciliario-item { display: flex; align-items: center; padding: 16px; margin-bottom: 12px; background: #fff; border: 2px solid #e0e0e0; border-radius: 16px; cursor: pointer; transition: all 0.3s ease; }
+.domiciliario-item:hover { border-color: var(--primary); transform: translateX(8px); box-shadow: 0 4px 15px rgba(230, 57, 70, 0.15); }
+.domiciliario-item > div:first-child { width: 50px; height: 50px; background: linear-gradient(135deg, var(--dark), var(--accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.3rem; margin-right: 16px; flex-shrink: 0; }
+.domiciliario-item > div:nth-child(2) { flex: 1; }
+.domiciliario-item strong { display: block; font-weight: 600; color: var(--dark); font-size: 1.05rem; margin-bottom: 4px; }
+.domiciliario-item small { color: var(--gray); font-size: 0.85rem; }
+.domiciliario-item small i { color: var(--accent); margin-right: 4px; }
+.domiciliario-item > div:last-child { color: var(--primary); font-size: 1.2rem; margin-left: 12px; }
+#sinResultados { text-align: center; padding: 3rem 2rem; color: var(--gray); }
+#sinResultados i { font-size: 3rem; margin-bottom: 1rem; color: #ddd; }
+
+/* 4. NOTIFICACIONES EN TIEMPO REAL ADMIN */
+.notificacion-flotante { position: fixed; top: 100px; right: -400px; background: white; border-radius: 16px; padding: 1.2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 1rem; z-index: 3000; max-width: 380px; border-left: 5px solid var(--success); transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.notificacion-flotante.mostrar { right: 20px; }
+.notificacion-nuevo-domi { border-left-color: var(--accent); background: linear-gradient(135deg, #ffffff 0%, #f0fffa 100%); }
+.notificacion-nuevo-domi .notif-icon { background: linear-gradient(135deg, var(--accent), #2A9D8F); animation: pulse-icon 2s infinite; }
+.notificacion-pedido-urgente { border-left-color: var(--primary); background: linear-gradient(135deg, #ffffff 0%, #fff5f5 100%); max-width: 420px; }
+.notificacion-pedido-urgente .notif-icon { width: 55px; height: 55px; font-size: 1.5rem; background: linear-gradient(135deg, var(--primary), #ff6b6b); animation: pulse-urgente 1s infinite; }
+.notif-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.3rem; flex-shrink: 0; }
+.notif-content { flex: 1; }
+.notif-content h4 { margin: 0 0 0.3rem 0; color: var(--dark); font-size: 1.1rem; }
+.notif-content p { margin: 0; color: var(--gray); font-size: 0.95rem; }
+.notif-close { background: none; border: none; color: var(--gray); cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+.notif-close:hover { background: var(--light); color: var(--danger); }
+.btn-asignar-ahora { background: var(--primary); color: white; border: none; padding: 0.6rem 1rem; border-radius: 25px; font-weight: 600; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 0.3rem; transition: all 0.3s ease; white-space: nowrap; }
+.btn-asignar-ahora:hover { background: #c62828; transform: scale(1.05); box-shadow: 0 5px 15px rgba(230, 57, 70, 0.4); }
+.notificacion-activacion { position: fixed; top: 90px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--primary), #d32f3f); color: white; padding: 1rem 1.5rem; border-radius: 50px; display: flex; align-items: center; gap: 1rem; box-shadow: var(--shadow-urgent); z-index: 2500; animation: slideDown 0.5s ease; }
+.notificacion-activacion button { background: white; color: var(--primary); border: none; padding: 0.5rem 1rem; border-radius: 25px; font-weight: 600; cursor: pointer; }
+.indicador-en-vivo { position: fixed; bottom: 20px; right: 20px; background: white; padding: 0.6rem 1rem; border-radius: 25px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--gray); z-index: 100; }
+.indicador-en-vivo::before { content: ''; width: 8px; height: 8px; background: var(--success); border-radius: 50%; animation: blink 1.5s infinite; }
+
+@keyframes pulse-icon { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+@keyframes pulse-urgente { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7); } 50% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(230, 57, 70, 0); } }
+
+/* 5. HISTORIAL Y TABLA COMPLEJA */
+.historial-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; background: white; padding: 1rem 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow); }
+.historial-titulo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.3rem; color: var(--dark); margin: 0; }
+.historial-controles { display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; }
+.filtro-grupo { display: flex; align-items: center; gap: 0.5rem; }
+.filtro-grupo label { font-weight: 500; color: var(--gray); font-size: 0.9rem; }
+.filtro-grupo select, .filtro-grupo input { padding: 0.6rem 1rem; border: 2px solid #e0e0e0; border-radius: 25px; font-family: inherit; font-size: 0.9rem; min-width: 200px; transition: var(--transition); }
+.filtro-grupo select:focus, .filtro-grupo input:focus { outline: none; border-color: var(--primary); }
+.acciones-masivas { display: flex; gap: 0.5rem; align-items: center; padding: 0.8rem 1rem; background: var(--light); border-radius: 12px; margin-bottom: 1rem; flex-wrap: wrap; }
+.btn-accion-masiva { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--transition); border: none; }
+.btn-eliminar-masivo { background: var(--danger); color: white; }
+.btn-eliminar-masivo:hover { background: #c82333; transform: translateY(-2px); }
+.btn-exportar { background: var(--accent); color: white; }
+.btn-exportar:hover { background: #218838; transform: translateY(-2px); }
+.contador-seleccionados { color: var(--gray); font-size: 0.9rem; margin-left: auto; }
+.tabla-historial-container { background: white; border-radius: var(--border-radius); box-shadow: var(--shadow); overflow: hidden; }
+#tablaHistorialPedidos { margin: 0; }
+#tablaHistorialPedidos th { background: var(--dark); color: white; font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px; }
+#tablaHistorialPedidos th:first-child { width: 50px; text-align: center; }
+#tablaHistorialPedidos td { vertical-align: middle; }
+.checkbox-pedido, #checkboxTodos { width: 20px; height: 20px; cursor: pointer; accent-color: var(--primary); }
+.fila-seleccionada { background: #fff5f5 !important; transition: background 0.2s ease; }
+.fila-seleccionada td { border-left: 3px solid var(--primary); }
+.domiciliario-tag { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--light); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; color: var(--dark); font-weight: 500; }
+.domiciliario-tag i { color: var(--accent); font-size: 0.8rem; }
+.tienda-tag-historial { display: inline-flex; align-items: center; gap: 0.4rem; background: linear-gradient(135deg, #FFF3E0, #FFE0B2); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.82rem; color: var(--dark); font-weight: 500; white-space: nowrap; max-width: 180px; overflow: hidden; text-overflow: ellipsis; }
+.tienda-tag-historial i { color: var(--secondary); font-size: 0.75rem; flex-shrink: 0; }
+.tienda-tag-detalle { display: inline-flex; align-items: center; gap: 0.4rem; background: linear-gradient(135deg, #FFF3E0, #FFE0B2); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.95rem; color: var(--dark); font-weight: 500; }
+.tienda-tag-detalle i { color: var(--secondary); }
+.contador-resultados { padding: 1rem 1.5rem; color: var(--gray); font-size: 0.9rem; border-top: 1px solid #eee; background: #fafafa; }
+
+/* 6. RESPONSIVE ADMIN */
+@media (max-width: 768px) {
+    .admin-grid { grid-template-columns: 1fr; }
+    table { font-size: 0.85rem; }
+    th, td { padding: 0.6rem; }
+    .historial-header { flex-direction: column; align-items: stretch; }
+    .historial-controles { flex-direction: column; width: 100%; }
+    .filtro-grupo select, .filtro-grupo input { width: 100%; }
+    .acciones-masivas { flex-direction: column; align-items: stretch; }
+    .btn-accion-masiva { width: 100%; justify-content: center; }
+    .contador-seleccionados { margin-left: 0; text-align: center; width: 100%; }
+    #tablaHistorialPedidos th, #tablaHistorialPedidos td { padding: 0.8rem 0.5rem; }
+    .domiciliario-tag, .tienda-tag-historial { font-size: 0.75rem; padding: 0.2rem 0.5rem; }
+    .tienda-tag-historial { max-width: 100px; font-size: 0.72rem; }
+    #modalAsignarDomiciliario .modal-content { max-width: 100%; margin: 0.5rem; padding: 1.2rem; }
+    .domiciliario-item { padding: 12px; }
+    .domiciliario-item > div:first-child { width: 40px; height: 40px; font-size: 1.1rem; }
+    .notificacion-flotante { left: 10px; right: 10px; max-width: none; top: auto; bottom: -200px; border-left: none; border-top: 5px solid var(--success); }
+    .notificacion-flotante.mostrar { right: 10px; left: 10px; bottom: 20px; }
+    .notificacion-nuevo-domi { border-left: none; border-top-color: var(--accent); }
+    .notificacion-pedido-urgente { border-left: none; border-top-color: var(--primary); flex-wrap: wrap; }
+    .notif-acciones { flex-direction: row; width: 100%; margin-top: 0.5rem; }
+    .btn-asignar-ahora { flex: 1; justify-content: center; }
+    .notificacion-activacion { top: 80px; left: 10px; right: 10px; transform: none; border-radius: var(--border-radius); flex-wrap: wrap; justify-content: center; text-align: center; }
+}

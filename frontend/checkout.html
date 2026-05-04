@@ -3,16 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- ★ PWA -->
+    <meta name="theme-color" content="#E63946">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Domicilios">
+    <link rel="apple-touch-icon" href="assets/img/icon-152x152.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/icon-96x96.png">
     <title>Finalizar Pedido - DOMICILIOS</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/store.css">
 </head>
 <body>
     <header>
         <div class="container">
             <nav>
-                <a href="index.html" class="logo"><i class="fas fa-utensils"></i> DOMI<span>CILIOS</span></a>
+                <a href="index.html" class="logo"><i class="fas fa-utensils"></i> DOMI<span>DELIS
+                </span></a>
                 <ul class="nav-links">
                     <li><a href="index.html"><i class="fas fa-arrow-left"></i> Seguir comprando</a></li>
                 </ul>
@@ -106,8 +116,8 @@
                         </div>
                     </div>
                     
-                    <button class="btn-confirmar" id="btnConfirmar" onclick="document.getElementById('formCheckout').dispatchEvent(new Event('submit'))">
-                        <i class="fab fa-whatsapp"></i> Confirmar y enviar por WhatsApp
+                    <button type="button" class="btn-confirmar" id="btnConfirmar">
+                           <i class="fab fa-whatsapp"></i> Confirmar y enviar por WhatsApp
                     </button>
                 </div>
             </div>
@@ -117,12 +127,19 @@
     <footer>
         <div class="container">
             <div class="footer-bottom">
-                <p>&copy; 2025 DOMICILIOS - Todos los derechos reservados</p>
+                <p>&copy; 2025 DOMIDELIS - Todos los derechos reservados</p>
             </div>
         </div>
     </footer>
 
     <script src="assets/js/config.js"></script>
     <script src="assets/js/checkout.js"></script>
+        <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js').catch(() => {});
+            });
+        }
+    </script>
 </body>
 </html>

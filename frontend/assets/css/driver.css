@@ -1,0 +1,67 @@
+/* ============================================
+   DRIVER.CSS - Panel del Domiciliario
+   ============================================ */
+
+/* 1. LAYOUT Y CARDS DE PEDIDOS */
+.pedidos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; }
+.panel-card { background: var(--white); border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--shadow); }
+.pedido-card { border-left: 4px solid var(--primary); }
+.pedido-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+.pedido-info p { margin-bottom: 0.5rem; color: var(--gray); }
+.pedido-info p strong { color: var(--dark); }
+.productos-resumen { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee; }
+.productos-resumen ul { margin-top: 0.5rem; padding-left: 1.5rem; font-size: 0.9rem; color: var(--gray); }
+
+/* 2. ESTADOS VISUALES (Colores dinámicos) */
+.pedido-card.pendiente { border-left-color: var(--warning); }
+.pedido-card.en-camino { border-left-color: var(--info); }
+.pedido-card.entregado { border-left-color: var(--success); background: linear-gradient(135deg, #f8fff8 0%, #ffffff 100%); opacity: 0.8; }
+.estado-badge { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+.estado-pendiente { background: var(--warning); color: #000; }
+.estado-en-camino { background: var(--info); color: #fff; }
+.estado-entregado { background: var(--success); color: #fff; }
+.estado-cancelado { background: var(--danger); color: #fff; }
+
+/* 3. BOTONES DE ACCIÓN DEL DOMICILIARIO */
+.estado-botones { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+.estado-botones .btn { flex: 1; min-width: 100px; }
+.estado-seccion { margin-top: 2rem; margin-bottom: 1rem; color: var(--dark); display: flex; align-items: center; gap: 0.5rem; }
+
+/* 4. TABS DE NAVEGACIÓN */
+.tabs-container { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 3px solid var(--light); padding-bottom: 0.5rem; }
+.tab-btn { display: flex; align-items: center; gap: 0.5rem; padding: 1rem 1.5rem; background: transparent; border: none; border-radius: 12px 12px 0 0; font-family: inherit; font-size: 1rem; font-weight: 600; color: var(--gray); cursor: pointer; transition: all 0.3s ease; position: relative; }
+.tab-btn:hover { color: var(--dark); background: var(--light); }
+.tab-btn.active { color: var(--primary); background: white; }
+.tab-btn.active::after { content: ''; position: absolute; bottom: -0.5rem; left: 0; right: 0; height: 3px; background: var(--primary); border-radius: 3px 3px 0 0; }
+.tab-badge { background: var(--primary); color: white; font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 20px; margin-left: 0.3rem; }
+.tab-content { display: none; animation: fadeIn 0.3s ease; }
+.tab-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* 5. ESTADÍSTICAS Y HISTORIAL */
+.historial-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+.historial-stats { display: flex; gap: 1rem; }
+.stat-box { background: white; padding: 1rem 1.5rem; border-radius: 16px; box-shadow: var(--shadow); text-align: center; min-width: 120px; }
+.stat-box i { font-size: 1.5rem; color: var(--success); margin-bottom: 0.5rem; }
+.stat-box span { display: block; font-size: 1.5rem; font-weight: 700; color: var(--dark); }
+.stat-box small { color: var(--gray); font-size: 0.8rem; }
+.filtros-historial { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.filtro-btn { padding: 0.6rem 1.2rem; background: white; border: 2px solid #e0e0e0; border-radius: 25px; font-family: inherit; font-size: 0.9rem; font-weight: 500; color: var(--gray); cursor: pointer; transition: all 0.3s ease; }
+.filtro-btn:hover { border-color: var(--primary); color: var(--primary); }
+.filtro-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+.historial-card { opacity: 0.85; border-left-color: var(--success) !important; }
+.historial-card:hover { opacity: 1; }
+.fecha-entrega { background: var(--success); color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 500; }
+.historial-acciones { margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #ddd; display: flex; justify-content: space-between; align-items: center; }
+.tiempo-entrega { color: var(--gray); font-size: 0.85rem; font-style: italic; }
+.tiempo-entrega i { color: var(--accent); margin-right: 0.3rem; }
+
+/* 6. RESPONSIVE DRIVER */
+@media (max-width: 768px) {
+    .pedidos-grid { grid-template-columns: 1fr; }
+    .historial-header { flex-direction: column; align-items: flex-start; }
+    .historial-stats { width: 100%; justify-content: space-around; }
+    .stat-box { flex: 1; padding: 0.8rem; }
+    .tabs-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tab-btn { white-space: nowrap; padding: 0.8rem 1rem; font-size: 0.9rem; }
+}
